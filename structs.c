@@ -29,8 +29,3 @@ struct consulta{
     char diagnostico[100];
     char medicamentos[5][50];
 };
-
-
-int main(){
-    
-}
