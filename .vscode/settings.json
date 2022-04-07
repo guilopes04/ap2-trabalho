@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "submenu_pacientes.h": "c",
+        "submenu_relatorios.h": "c"
+    }
+}
