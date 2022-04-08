@@ -12,25 +12,24 @@ int submenu_relatorios()
     printf("1. Mostrar todos os dados de todos os medicos a partir de uma especialidade\n");
     printf("2. Mostrar todos os dados de todos os pacientes menores de X anos de idade\n");
     printf("3. Mostrar o CRM, o nome do medico, o CPF do paciente, o nome do paciente, data, hora, diagnostico e medicamentos para todas as consultas realizadas nos últimos X dias\n");
+    printf("4. Voltar ao Menu Principal\n");
     printf("Digite o recurso desejado: ");
     scanf("%d", &res);
     switch (res)
     {
     case 1:
-        //listar_todos();
+        //funcao();
         break;
     case 2:
-        //listar_um();
+        //lfuncao();
         break;
     case 3:
-        //Incluir();
+        //funcao();
         break;
     case 4:
-        //Alterar();
+        menu_principal();
         break;
-    case 5:
-        //Alterar();
-        break;
+        
     
     default:
         printf("\nvalor invalido\n");

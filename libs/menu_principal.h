@@ -36,7 +36,6 @@ int menu_principal()
     
     default:
         printf("\nvalor invalido\n");
-        printf("voltando para o menu principal\n");
         break;
     }
 }

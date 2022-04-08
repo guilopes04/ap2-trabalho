@@ -14,6 +14,7 @@ int submenu_consultas()
     printf("3. Incluir Item\n");
     printf("4. Alterar Item\n");
     printf("5. Excluir Item\n");
+    printf("6. Voltar ao Menu Principal\n");
     printf("Digite o recurso desejado: ");
     scanf("%d", &res);
     switch (res)
@@ -32,6 +33,9 @@ int submenu_consultas()
         break;
     case 5:
         //Alterar();
+        break;
+    case 6:
+        menu_principal();
         break;
     
     default:
