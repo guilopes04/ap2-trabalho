@@ -12,28 +12,5 @@
 
 int main()
 {
-    int res = menu_principal();
-    switch (res)
-    {
-    case 1:
-        submenu_medicos();
-        break;
-    case 2:
-        submenu_pacientes();
-        break;
-    case 3:
-        submenu_consultas();
-        break;
-    case 4:
-        submenu_relatorios();
-        break;
-    case 5:
-        printf("\nsaindo...\n");
-        break;
-    
-    default:
-        printf("\nvalor invalido\n");
-        break;
-    }
-
+    menu_principal();
 }

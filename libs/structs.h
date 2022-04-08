@@ -3,8 +3,8 @@
 struct medico{
     char crm[20];
     char nome[40];
-    char nascimento[15];
-    char sexo[10];
+    char nascimento[10];
+    char sexo;
     char especialidade[100];
     char universidade[50];
     char email[2][50];
@@ -14,8 +14,8 @@ struct medico{
 struct paciente{
     char cpf[18];
     char nome[40];
-    char nascimento[15];
-    char sexo[10];
+    char nascimento[10];
+    char sexo;
     char plano[40];
     char email[2][50];
     char telefone[2][20];
@@ -24,8 +24,8 @@ struct paciente{
 struct consulta{
     char crm[20];
     char cpf[18];
-    char data[15];
-    char hora[6];
+    char data[10];
+    char hora[5];
     char diagnostico[100];
     char medicamentos[5][50];
 };
