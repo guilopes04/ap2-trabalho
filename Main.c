@@ -7,12 +7,12 @@
 #include "libs/submenu_consultas.h"
 #include "libs/submenu_pacientes.h"
 #include "libs/submenu_relatorios.h"
+#include "libs/menu_principal.h"
 
 
 int main()
 {
     int res = menu_principal();
-    int res = 1;
     switch (res)
     {
     case 1:
@@ -36,5 +36,4 @@ int main()
         break;
     }
 
-    return 0;
 }
