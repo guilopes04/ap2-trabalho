@@ -3,10 +3,15 @@
 #include <time.h>
 #include <stdlib.h>
 #include <string.h>
+#include "structs.h"
 
 int submenu_consultas()
 {
     system("cls");
+
+    struct consulta teste[5];
+    strcpy(teste[0].crm, "123");
+
     int res = 0;
     printf("SUBMENU CONSULTAS\n\n");
     printf("1. Listar Todos\n");
@@ -21,6 +26,7 @@ int submenu_consultas()
     {
     case 1:
         //listar_todos();
+        printf("%s", teste[0].crm);
         break;
     case 2:
         //listar_um();
