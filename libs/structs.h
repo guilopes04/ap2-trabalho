@@ -27,5 +27,5 @@ struct consulta{
     char data[10];
     char hora[5];
     char diagnostico[100];
-    char medicamentos[5][50];
+    char medicamentos[10][50];
 };
