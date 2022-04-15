@@ -71,47 +71,47 @@ int main()
     }
 }
 
-void listar_todos(struct consulta consultas[]){
-   system("cls");
-   // int i, tam_vet;
+// void listar_todos(struct consulta consultas[]){
+//    system("cls");
+//    // int i, tam_vet;
 
-   printf("CRM: %s\nCPF: %s\nData: %s\nHora: %s\nDiagnostico: %s\n", consultas[0].crm, consultas[0].cpf, consultas[0].data, consultas[0].hora, consultas[0].diagnostico);
-   //printf(consultas[0].crm);
-   // tam_vet = contador;
+//    printf("CRM: %s\nCPF: %s\nData: %s\nHora: %s\nDiagnostico: %s\n", consultas[0].crm, consultas[0].cpf, consultas[0].data, consultas[0].hora, consultas[0].diagnostico);
+//    //printf(consultas[0].crm);
+//    // tam_vet = contador;
 
-   // for(i = 0; i < tam_vet; i++)
-   //     imprime_consulta(consultas, i);
-}
-
-// void listar_um(struct consulta consultas[]){
-//     char crm1[20], cpf1[18], data1[10], hora1[6];
-//     int i;
-
-//     printf("Informe o CRM: ");
-//     scanf("%s", &crm1);
-//     printf("Informe o CPF do paciente: ");
-//     scanf("%s", &cpf1);
-//     printf("Informe a data da consulta: ");
-//     scanf("%s", &data1);
-//     printf("Informe a hora da consulta: ");
-//     scanf("%s", &hora1);
-    
-//     i = busca_consulta(consultas, *crm1, *cpf1, *data1, *hora1);
-//     if (i == -1)
-//         printf("consulta não encontrada!");
-//     else{
-//         printf("Consulta: \n");
-//         printf("CRM: %s\nCPF: %s\nData: %s\nHora: %s\nDiagnostico: %s\n", consultas[i].crm, consultas[i].cpf, consultas[i].data, consultas[i].hora, consultas[i].diagnostico);
-//     }
+//    // for(i = 0; i < tam_vet; i++)
+//    //     imprime_consulta(consultas, i);
 // }
 
- void imprime_consulta(struct consulta consultas[], int i){
-     int j, k;
-     j = i;
-     printf("CRM: %s\nCPF: %s\nData: %s\nHora: %s\nDiagnostico: %s\n", consultas[j].crm, consultas[j].cpf, consultas[j].data, consultas[j].hora, consultas[j].diagnostico);
-     for (k = 0; k < 10; k++)
-     printf("Medicamento %d: %s", k + 1, consultas[j].medicamentos[k]);
- }
+// // void listar_um(struct consulta consultas[]){
+// //     char crm1[20], cpf1[18], data1[10], hora1[6];
+// //     int i;
+
+// //     printf("Informe o CRM: ");
+// //     scanf("%s", &crm1);
+// //     printf("Informe o CPF do paciente: ");
+// //     scanf("%s", &cpf1);
+// //     printf("Informe a data da consulta: ");
+// //     scanf("%s", &data1);
+// //     printf("Informe a hora da consulta: ");
+// //     scanf("%s", &hora1);
+    
+// //     i = busca_consulta(consultas, *crm1, *cpf1, *data1, *hora1);
+// //     if (i == -1)
+// //         printf("consulta não encontrada!");
+// //     else{
+// //         printf("Consulta: \n");
+// //         printf("CRM: %s\nCPF: %s\nData: %s\nHora: %s\nDiagnostico: %s\n", consultas[i].crm, consultas[i].cpf, consultas[i].data, consultas[i].hora, consultas[i].diagnostico);
+// //     }
+// // }
+
+//  void imprime_consulta(struct consulta consultas[], int i){
+//      int j, k;
+//      j = i;
+//      printf("CRM: %s\nCPF: %s\nData: %s\nHora: %s\nDiagnostico: %s\n", consultas[j].crm, consultas[j].cpf, consultas[j].data, consultas[j].hora, consultas[j].diagnostico);
+//      for (k = 0; k < 10; k++)
+//      printf("Medicamento %d: %s", k + 1, consultas[j].medicamentos[k]);
+//  }
 
 void incluir_consulta(struct consulta consultas[], int *contador){
     char crm1[20], cpf1[18], data1[10], hora1[6], diagnostico1[100], medicamentos1[10][50];
@@ -179,7 +179,7 @@ void submenu_consultas(){
     switch (res)
     {
     case 1:
-        listar_todos(consultas);
+        //listar_todos(consultas);
         
         break;
     case 2:
@@ -252,7 +252,8 @@ int submenu_pacientes()
 
 int submenu_medicos()
 {
-    int contador_medicos;
+    int contador_medicos = 0;
+    struct medico medicos[tamanho];
     system("cls");
     int res = 0;
     printf("SUBMENU MEDICOS\n\n");
@@ -273,7 +274,7 @@ int submenu_medicos()
         //listar_um();
         break;
     case 3:
-        Incluir_medico(&contador_medicos);
+        Incluir_medico(medicos, &contador_medicos);
         break;
     case 4:
         //Alterar();
@@ -291,9 +292,8 @@ int submenu_medicos()
     }
 }
 
-int Incluir_medico(struct consulta consultas[], int *contador_medicos){
+int Incluir_medico(struct medico medicos[], int *contador_medicos){
     int contador = *contador_medicos;
-    struct medico medicos[tamanho];
     char crm1[20], nome1[18], data_nascimento1[10], sexo1[6], especialidade1[100], universidade1[50], emails1[1][20], telefones1[1][10];
     int i, num_emails, num_telefones;
 
@@ -312,9 +312,9 @@ int Incluir_medico(struct consulta consultas[], int *contador_medicos){
     printf("Insira a universidade que se formou: ");
     scanf("%s", &universidade1);
     printf("Insira a quantidade de emails que o medico possui: ");
-    scanf("%s", &num_emails);
+    scanf("%d", &num_emails);
     printf("Insira a quantidade de telefones que o medico possui: ");
-    scanf("%s", &num_telefones);
+    scanf("%d", &num_telefones);
     for(i = 0; i < num_emails; i++){
         printf("Insira o email numero %d: ", i + 1);
         scanf("%s", &emails1[i]);
@@ -324,16 +324,14 @@ int Incluir_medico(struct consulta consultas[], int *contador_medicos){
         scanf("%s", &telefones1[i]);
     }
     strcpy(medicos[contador].crm, crm1);
-    strcpy(medicos[contador_medico].nome, nome1);
-    strcpy(medicos[contador_medico].nascimento, data_nascimento1);
-    strcpy(medicos[contador_medico].sexo, sexo1);
-    strcpy(medicos[contador_medico].especialidade, especialidade1);
-    strcpy(medicos[contador_medico].universidade, universidade1);
-    strcpy(medicos[contador_medico].email, emails1);
-    strcpy(medicos[contador_medico].telefone, telefones1);
-    *contador_medico++;
-    //printf("CRM: %s\nCPF: %s\nData: %s\nHora: %s\nDiagnostico: %s\n", consultas[0].crm, consultas[0].cpf, consultas[0].data, consultas[0].hora, consultas[0].diagnostico);
-    //printf("%s", consultas[0].crm);
+    strcpy(medicos[contador].nome, nome1);
+    strcpy(medicos[contador].nascimento, data_nascimento1);
+    strcpy(medicos[contador].sexo, sexo1);
+    strcpy(medicos[contador].especialidade, especialidade1);
+    strcpy(medicos[contador].universidade, universidade1);
+    strcpy(medicos[contador].email, emails1);
+    strcpy(medicos[contador].telefone, telefones1);
+    (*contador_medicos)++;
 }
 
 
