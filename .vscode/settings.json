@@ -1,13 +1,6 @@
 {
     "files.associations": {
-        "submenu_pacientes.h": "c",
-        "submenu_relatorios.h": "c",
-        "submenu_consultas.h": "c",
         "menu_principal.h": "c",
-        "time.h": "c",
-        "structs.h": "c",
-        "stdio.h": "c",
-        "string.h": "c"
-    },
-    "C_Cpp.errorSquiggles": "Enabled"
+        "submenu_pacientes.h": "c"
+    }
 }
