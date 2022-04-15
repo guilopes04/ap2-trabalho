@@ -25,7 +25,7 @@ struct consulta{
     char crm[20];
     char cpf[18];
     char data[10];
-    char hora[5];
+    char hora[6];
     char diagnostico[100];
     char medicamentos[10][50];
 };
