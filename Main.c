@@ -163,9 +163,10 @@ void incluir_consulta(struct consulta consultas[]){
 int main()
 {
 	struct consulta consultas[tamanho];
-	int sair = 0, sair_medico = 0, sair_paciente = 0, sair_consulta = 0, sair_relatorio = 0;
+	int sair = 0;
 	
 	while (sair == 0){
+		int sair_medico = 0, sair_paciente = 0, sair_consulta = 0, sair_relatorio = 0;
 	    system("cls");
 	    int res = 0;
 	    printf("MENU\n\n");
