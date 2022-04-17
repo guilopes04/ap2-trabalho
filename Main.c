@@ -35,6 +35,7 @@ struct consulta{
     char hora[6];
     char diagnostico[100];
     char medicamentos[10][50];
+	int num_medicamentos;
 };
 
 //-----------	FUNCOES MEDICOS	  ----------------------------------------------------------------------
