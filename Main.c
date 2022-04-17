@@ -40,15 +40,34 @@ struct consulta{
 
 //-----------	FUNCOES MEDICOS	  ----------------------------------------------------------------------
 
-void listar_todos_medicos(struct medico medicos[]){
+void listar_todos_medicos(struct medico medicos[], *contador_medicos){
 	int voltar = 0;
 	system("cls");
 	printf("CRM, Nome, Data de Nascimento, Sexo, Especialidade, Universidade em que se formou, E-mails, Telefones\n");
-	for(int i = 0; i < strlen(medicos); i++){
-		printf("%s, %s, %s, %s, %s, %s", medicos[i].crm, medicos[i].nome, medicos[i].nascimento, medicos[i].sexo, medicos[i].especialidade, medicos[i].universidade);
+	for(int i = 0; i < contador_medicos; i++){
+		printf("%s, %s, %s, %c, %s, %s", medicos[i].crm, medicos[i].nome, medicos[i].nascimento, medicos[i].sexo, medicos[i].especialidade, medicos[i].universidade);
+		for(int j = 0; j < strlen(medicos[i].email; j++)){
+			printf("%s", medicos[i].email[j]);
+		}
+		for(int j = 0; j < strlen(medicos[i].telefone; j++)){
+			printf("%s", medicos[i].telefone[j]);
+		}
 	}
 	printf("insira qualquer valor para voltar ao menu de medicos:");
 	scanf("%d", &voltar);
+	
+	
+	
+	int i, j, contador = *contador_consultas;
+	
+	for (i = 0; i < contador; i++){
+		printf("Consulta %d:", i + 1);
+		printf("\n\tCRM: %s\n\tCPF: %s\n\tData: %s\n\tHora: %s\n\tDiagnóstico: %s", consultas[i].crm, consultas[i].cpf, consultas[i].data, consultas[i].hora, consultas[i].diagnostico);
+		for(j = 0; j < consultas[i].num_medicamentos; j++){
+			printf("\n\tMedicamento %d: %s", i + 1, consultas[i].medicamentos[j]);
+		}
+	}
+
 }
 
 void Incluir_medico(struct medico medicos[], int *contador_medicos){
