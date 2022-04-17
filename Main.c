@@ -49,25 +49,26 @@ void listar_todos_medicos(struct medico medicos[], int *contador_medicos){
 	int voltar = 0;
 	int contador = *contador_medicos;
 	system("cls");
-	printf("CRM, Nome, Data de Nascimento, Sexo, Especialidade, Universidade em que se formou, E-mails, Telefones\n");
+	printf("CRM | Nome | Data de Nascimento | Sexo | Especialidade | Universidade em que se formou | E-mails | Telefones\n");
 	for(int i = 0; i < contador; i++){
-		printf("%s, %s, %s, %c, %s, %s", medicos[i].crm, medicos[i].nome, medicos[i].nascimento, medicos[i].sexo, medicos[i].especialidade, medicos[i].universidade);
+		printf("%s | %s | %d/%d/%d | %s | %s | %s |", medicos[i].crm, medicos[i].nome, medicos[i].dia_nasc, medicos[i].mes_nasc, medicos[i].ano_nasc, medicos[i].sexo, medicos[i].especialidade, medicos[i].universidade);
 		for(int j = 0; j < 2; j++){
-			printf("%s", medicos[i].email[j]);
+			printf("%s ,", medicos[i].email[j]);
 		}
-		for(int j = 0; j < 2; j++){
-			printf("%s", medicos[i].telefone[j]);
+		printf(" | ");
+		for(int x = 0; x < 2; x++){
+			printf("%s ", medicos[i].telefone[x]);
 		}
 	}
-	printf("insira qualquer valor para voltar ao menu de medicos:");
+	printf("\ninsira qualquer valor para voltar ao menu de medicos:");
 	scanf("%d", &voltar);
 
 }
 
 void Incluir_medico(struct medico medicos[], int *contador_medicos){
    int contador = *contador_medicos;
-   char crm1[20], nome1[18], data_nascimento1[10], sexo1, especialidade1[100], universidade1[50], emails1[2][50], telefones1[2][20];
-   int i, num_emails, num_telefones;
+   char crm1[20], nome1[18], sexo1, especialidade1[100], universidade1[50], emails1[2][50], telefones1[2][20];
+   int i = 0, num_emails = 0, num_telefones = 0, dia_nasc1 = 0, mes_nasc1 = 0, ano_nasc1 = 0;
 
    system("cls");
 
@@ -78,31 +79,35 @@ void Incluir_medico(struct medico medicos[], int *contador_medicos){
 		   printf("Este crm já existe\n");
 	   }
    }
-   printf("Insira o nome do medico: ");
+   printf("Insira o nome do medico:");
    scanf("%s", &nome1);
-   printf("Insira a data de nascimento: ");
-   scanf("%s", &data_nascimento1);
+   printf("Insira a data de nascimento (xx xx xxxx):");
+   scanf("%d %d %d", &dia_nasc1, &mes_nasc1, &ano_nasc1);
    printf("Insira o sexo: ");
    scanf("%s", &sexo1);
-   printf("Insira a especialidade: ");
+   printf("Insira a especialidade:");
    scanf("%s", &especialidade1);
-   printf("Insira a universidade que se formou: ");
+   printf("Insira a universidade que se formou:");
    scanf("%s", &universidade1);
-   printf("Insira a quantidade de emails que o medico possui: ");
+   printf("Insira a quantidade de emails que o medico possui:");
    scanf("%d", &num_emails);
-   printf("Insira a quantidade de telefones que o medico possui: ");
+   medicos[contador].n_emails = num_emails;
+   printf("Insira a quantidade de telefones que o medico possui:");
    scanf("%d", &num_telefones);
+   medicos[contador].n_telefones = num_telefones;
    for(i = 0; i < num_emails; i++){
-       printf("Insira o email numero %d: ", i + 1);
+       printf("Insira o email numero %d:", i + 1);
        scanf("%s", &emails1[i]);
    }
    for(i = 0; i < num_emails; i++){
-       printf("Insira o tefone numero %d: ", i + 1);
+       printf("Insira o tefone numero %d:", i + 1);
        scanf("%s", &telefones1[i]);
    }
    strcpy(medicos[contador].crm, crm1);
    strcpy(medicos[contador].nome, nome1);
-   strcpy(medicos[contador].nascimento, data_nascimento1);
+   medicos[contador].dia_nasc = dia_nasc1;
+   medicos[contador].mes_nasc = mes_nasc1;
+   medicos[contador].ano_nasc = ano_nasc1;
    medicos[contador].sexo = sexo1;
    strcpy(medicos[contador].especialidade, especialidade1);
    strcpy(medicos[contador].universidade, universidade1);
