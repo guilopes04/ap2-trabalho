@@ -40,33 +40,22 @@ struct consulta{
 
 //-----------	FUNCOES MEDICOS	  ----------------------------------------------------------------------
 
-void listar_todos_medicos(struct medico medicos[], *contador_medicos){
+void listar_todos_medicos(struct medico medicos[], int *contador_medicos){
 	int voltar = 0;
+	int contador = *contador_medicos;
 	system("cls");
 	printf("CRM, Nome, Data de Nascimento, Sexo, Especialidade, Universidade em que se formou, E-mails, Telefones\n");
-	for(int i = 0; i < contador_medicos; i++){
+	for(int i = 0; i < contador; i++){
 		printf("%s, %s, %s, %c, %s, %s", medicos[i].crm, medicos[i].nome, medicos[i].nascimento, medicos[i].sexo, medicos[i].especialidade, medicos[i].universidade);
-		for(int j = 0; j < strlen(medicos[i].email; j++)){
+		for(int j = 0; j < 2; j++){
 			printf("%s", medicos[i].email[j]);
 		}
-		for(int j = 0; j < strlen(medicos[i].telefone; j++)){
+		for(int j = 0; j < 2; j++){
 			printf("%s", medicos[i].telefone[j]);
 		}
 	}
 	printf("insira qualquer valor para voltar ao menu de medicos:");
 	scanf("%d", &voltar);
-	
-	
-	
-	int i, j, contador = *contador_consultas;
-	
-	for (i = 0; i < contador; i++){
-		printf("Consulta %d:", i + 1);
-		printf("\n\tCRM: %s\n\tCPF: %s\n\tData: %s\n\tHora: %s\n\tDiagnóstico: %s", consultas[i].crm, consultas[i].cpf, consultas[i].data, consultas[i].hora, consultas[i].diagnostico);
-		for(j = 0; j < consultas[i].num_medicamentos; j++){
-			printf("\n\tMedicamento %d: %s", i + 1, consultas[i].medicamentos[j]);
-		}
-	}
 
 }
 
@@ -79,7 +68,7 @@ void Incluir_medico(struct medico medicos[], int *contador_medicos){
 
    printf("Insira o CRM do medico: ");
    scanf("%s", &crm1);
-   for(int i = 0; i < strlen(medicos); i++){
+   for(int i = 0; i < contador; i++){
 	   if(crm1 == medicos[i].crm){
 		   printf("Este crm já existe\n");
 	   }
@@ -109,11 +98,15 @@ void Incluir_medico(struct medico medicos[], int *contador_medicos){
    strcpy(medicos[contador].crm, crm1);
    strcpy(medicos[contador].nome, nome1);
    strcpy(medicos[contador].nascimento, data_nascimento1);
-   strcpy(medicos[contador].sexo, sexo1);
+   medicos[contador].sexo = sexo1;
    strcpy(medicos[contador].especialidade, especialidade1);
    strcpy(medicos[contador].universidade, universidade1);
-   strcpy(medicos[contador].email, emails1);
-   strcpy(medicos[contador].telefone, telefones1);
+   for(int i = 0; i < num_emails; i++){
+		strcpy(medicos[contador].email[i], emails1[i]);
+   }
+   for(int i = 0; i < num_telefones; i++){
+		strcpy(medicos[contador].telefone[i], telefones1[i]);
+   }
    (*contador_medicos)++;
 }
 
@@ -311,7 +304,7 @@ int main()
 			    switch (res)
 			    {
 			    case 1:
-			        listar_todos_medicos(medicos);
+			        listar_todos_medicos(medicos, &contador_medicos);
 			        break;
 			    case 2:
 			        //listar_um();
