@@ -52,6 +52,7 @@ void listar_todos_medicos(struct medico medicos[]){
 
 void Incluir_medico(struct medico medicos[], int *contador_medicos){
    int contador = *contador_medicos;
+   printf("%d", contador);
    char crm1[20], nome1[18], data_nascimento1[10], sexo1, especialidade1[100], universidade1[50], emails1[2][50], telefones1[2][20];
    int i, num_emails, num_telefones;
 
@@ -59,11 +60,11 @@ void Incluir_medico(struct medico medicos[], int *contador_medicos){
 
    printf("Insira o CRM do medico: ");
    scanf("%s", &crm1);
-//   for(int i = 0; i < strlen(medicos); i++){
-//	   if(crm1 == medicos[i].crm){
-//		   printf("Este crm já existe\n");
-//	   }
-//   }
+   for(int i = 0; i < contador; i++){
+	   if(crm1 == medicos[i].crm){
+		   printf("Este crm já existe\n");
+	   }
+   }
    printf("Insira o nome do medico: ");
    scanf("%s", &nome1);
    printf("Insira a data de nascimento: ");
@@ -87,6 +88,9 @@ void Incluir_medico(struct medico medicos[], int *contador_medicos){
        scanf("%s", &telefones1[i]);
    }
    strcpy(medicos[contador].crm, crm1);
+   printf("%d: %s", contador, medicos[contador].crm);
+   int teste = 0;
+   scanf("%d", teste);
    strcpy(medicos[contador].nome, nome1);
    strcpy(medicos[contador].nascimento, data_nascimento1);
    medicos[contador].sexo = sexo1;
@@ -249,12 +253,10 @@ int main()
 {
 	struct consulta consultas[tamanho];
 	struct medico medicos[tamanho];
-	
-	int sair = 0, contador_medicos = 0, contador_consultas = 0;
+	int sair = 0, contador_consultas = 0;
 	
 	while (sair == 0){
-		int sair_medico = 0, sair_paciente = 0, sair_consulta = 0, sair_relatorio = 0;
-		
+		int sair_medico = 0, sair_paciente = 0, sair_consulta = 0, sair_relatorio = 0, contador_medicos = 0;
 	    system("cls");
 	    int res = 0;
 	    printf("MENU\n\n");
@@ -351,7 +353,7 @@ int main()
 	        break;
 	        
 	    case 3:
-	       while(sair_consulta == 0){
+	        while(sair_consulta == 0){
 		    	//system("cls");
 		
 			    int res = 0;
@@ -392,7 +394,7 @@ int main()
 	        break;
 	        
 	    case 4:
-		while (sair_relatorio == 0){
+	        while (sair_relatorio == 0){
 	        	//system("cls");
 			    int res = 0;
 			    printf("SUBMENU RELATORIOS\n\n");
