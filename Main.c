@@ -72,7 +72,7 @@ void listar_todos_medicos(struct medico medicos[], *contador_medicos){
 
 void Incluir_medico(struct medico medicos[], int *contador_medicos){
    int contador = *contador_medicos;
-   char crm1[20], nome1[18], data_nascimento1[10], sexo1[6], especialidade1[100], universidade1[50], emails1[1][20], telefones1[1][10];
+   char crm1[20], nome1[18], data_nascimento1[10], sexo1, especialidade1[100], universidade1[50], emails1[2][50], telefones1[2][20];
    int i, num_emails, num_telefones;
 
    system("cls");
