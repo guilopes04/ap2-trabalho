@@ -104,6 +104,18 @@ void Incluir_medico(struct medico medicos[], int *contador_medicos){
 
 //-----------	FUNCOES CONSULTAS	  ----------------------------------------------------------------------
 
+void listar_todos(struct consulta consultas[], int *contador_consultas){
+	int i, j, contador = *contador_consultas;
+	
+	for (i = 0; i < contador; i++){
+		printf("Consulta %d:", i + 1);
+		printf("\n\tCRM: %s\n\tCPF: %s\n\tData: %s\n\tHora: %s\n\tDiagnóstico: %s", consultas[i].crm, consultas[i].cpf, consultas[i].data, consultas[i].hora, consultas[i].diagnostico);
+		for(j = 0; j < consultas[i].num_medicamentos; j++){
+			printf("\n\tMedicamento %d: %s", i + 1, consultas[i].medicamentos[j]);
+		}
+	}
+}
+
 void listar_um(struct consulta consultas[], int *contador_consultas)
 {
     char crm1[20], cpf1[18], data1[10], hora1[6];
@@ -141,7 +153,7 @@ void listar_um(struct consulta consultas[], int *contador_consultas)
 
 void incluir_consulta(struct consulta consultas[], int *contador_consultas){
     char crm1[20], cpf1[18], data1[10], hora1[6], diagnostico1[100];
-    int i, j, num_medicamentos, busca_consulta = 1, contador = *contador_consultas;
+    int i, j, num_medicamentos1, busca_consulta = 1, contador = *contador_consultas;
     
     system("cls"); //limpando o terminal
 	
@@ -156,10 +168,10 @@ void incluir_consulta(struct consulta consultas[], int *contador_consultas){
     printf("Insira o diagnostico: ");
     scanf("%s", &diagnostico1);
     printf("Insira o numero de medicamentos: ");
-    scanf("%d", &num_medicamentos);
+    scanf("%d", &num_medicamentos1);
     
-    char medicamentos1[num_medicamentos][50];
-    for(i = 0; i < num_medicamentos; i++){
+    char medicamentos1[num_medicamentos1][50];
+    for(i = 0; i < num_medicamentos1; i++){
         printf("Insira o medicamento numero %.0d: ", i + 1);
         scanf("%s", &medicamentos1[i]);
     }
@@ -183,7 +195,8 @@ void incluir_consulta(struct consulta consultas[], int *contador_consultas){
 	    strcpy(consultas[i].data, data1);
 	    strcpy(consultas[i].hora, hora1);
 	    strcpy(consultas[i].diagnostico, diagnostico1);
-	    for (j = 0; j < num_medicamentos; j++){
+	    consultas[i].num_medicamentos = num_medicamentos1;
+	    for (j = 0; j < num_medicamentos1; j++){
 	    	strcpy(consultas[i].medicamentos[j], medicamentos1[j]);
 		}
 		(*contador_consultas)++; //incrementando o contador de consultas
@@ -194,49 +207,49 @@ void incluir_consulta(struct consulta consultas[], int *contador_consultas){
 
 //-----------	FUNCOES RELATORIOS	  ----------------------------------------------------------------------
 
-void especialidade(struct medico medicos[]){
-	int i, encontrou = 0;
-	char especialidade1[100];
-	printf("Insira a especialidade: ");
-	scanf("%s", &especialidade1);
-	
-	for (i = 0; i < tamanho; i++){
-		//printf("Especialidade %d: %s", i, medicos[i].especialidade);
-		if (medicos[i].especialidade == especialidade1){
-			printf("Aquiiiiiii");
-			printf("Médico %d: ", i + 1);
-			printf("\n\tCRM: ", medicos[i].crm);
-		    printf("\n\tNome: ", medicos[i].nome);
-		    printf("\n\tData de nascimento: ", medicos[i].nascimento);
-		    printf("\n\tSexo: ", medicos[i].sexo);
-		    printf("\n\tEspecialidade: ", medicos[i].especialidade);
-		    printf("\n\tUniversidade: ", medicos[i].universidade);
-		    printf("\n\tE-mail: ", medicos[i].email[0]);
-		    printf("\n\tTelefone: ", medicos[i].telefone[0]);
-		    
-		    if (encontrou == 0)
-		    	encontrou++;
-		}
-	}
-	
-	if (encontrou == 0)
-		printf("Nenhum médico com a especialidade %s foi encontrado!", especialidade1);
-}
-
-void menor_idade(struct medico medicos[]){
-	char idade[5], ano[10], ano2[10];
-	int i, a;
-	
-	printf("Insira a idade: ");
-	scanf("%s", idade);
-	
-	for (i = 0; i < tamanho; i++){
-		strcpy(ano, medicos[i].nascimento);
-		strrev(ano);
-		strncpy(ano2, ano, 4);
-		strrev(ano2);
-	}
-}
+//void especialidade(struct medico medicos[]){
+//	int i, encontrou = 0;
+//	char especialidade1[100];
+//	printf("Insira a especialidade: ");
+//	scanf("%s", &especialidade1);
+//	
+//	for (i = 0; i < tamanho; i++){
+//		//printf("Especialidade %d: %s", i, medicos[i].especialidade);
+//		if (medicos[i].especialidade == especialidade1){
+//			printf("Aquiiiiiii");
+//			printf("Médico %d: ", i + 1);
+//			printf("\n\tCRM: ", medicos[i].crm);
+//		    printf("\n\tNome: ", medicos[i].nome);
+//		    printf("\n\tData de nascimento: ", medicos[i].nascimento);
+//		    printf("\n\tSexo: ", medicos[i].sexo);
+//		    printf("\n\tEspecialidade: ", medicos[i].especialidade);
+//		    printf("\n\tUniversidade: ", medicos[i].universidade);
+//		    printf("\n\tE-mail: ", medicos[i].email[0]);
+//		    printf("\n\tTelefone: ", medicos[i].telefone[0]);
+//		    
+//		    if (encontrou == 0)
+//		    	encontrou++;
+//		}
+//	}
+//	
+//	if (encontrou == 0)
+//		printf("Nenhum médico com a especialidade %s foi encontrado!", especialidade1);
+//}
+//
+//void menor_idade(struct medico medicos[]){
+//	char idade[5], ano[10], ano2[10];
+//	int i, a;
+//	
+//	printf("Insira a idade: ");
+//	scanf("%s", idade);
+//	
+//	for (i = 0; i < tamanho; i++){
+//		strcpy(ano, medicos[i].nascimento);
+//		strrev(ano);
+//		strncpy(ano2, ano, 4);
+//		strrev(ano2);
+//	}
+//}
 
 
 //-----------	MAIN	  ----------------------------------------------------------------------
@@ -361,7 +374,7 @@ int main()
 			    switch (res)
 			    {
 			    case 1:
-			        //listar_todos(consultas);
+			        listar_todos(consultas, &contador_consultas);
 			        break;
 			    case 2: 
 					listar_um(consultas, &contador_consultas);
@@ -399,10 +412,10 @@ int main()
 			    switch (res)
 			    {
 			    case 1:
-			        especialidade(medicos);
+			        //especialidade(medicos);
 			        break;
 			    case 2:
-			        menor_idade(medicos);
+			        //menor_idade(medicos);
 			        break;
 			    case 3:
 			        //funcao();
