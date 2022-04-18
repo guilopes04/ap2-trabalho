@@ -546,7 +546,7 @@ void listar_um(struct consulta consultas[], int *contador_consultas)
         printf("Consulta não encontrada!");
     else{
         printf("Consulta: \n");
-        printf("\tCRM: %s\n\tCPF: %s\n\tData: %d/%d/%d\n\tHora: %s\n\tDiagnostico: %s\n", consultas[posicao].crm, consultas[posicao].cpf, consultas[posicao].dia, consultas[posicao].mes, consultas[posicao].ano, consultas[posicao].hora, consultas[posicao].diagnostico);
+        printf("\tCRM: %s\n\tCPF: %s\n\tData: %d/%d/%d\n\tHora: %s\n\tDiagnóstico: %s\n", consultas[posicao].crm, consultas[posicao].cpf, consultas[posicao].dia, consultas[posicao].mes, consultas[posicao].ano, consultas[posicao].hora, consultas[posicao].diagnostico);
     	for(i = 0; i < consultas[posicao].num_medicamentos; i++){
 			printf("\tMedicamento %d: %s\n", posicao + 1, consultas[posicao].medicamentos[i]);
 		}
@@ -559,9 +559,9 @@ void incluir_consulta(struct consulta consultas[], int *contador_consultas){
     
     system("cls"); //limpando o terminal
 	
-    printf("Insira o CRM do médico (sem pontos ou traços): ");
+    printf("Insira o CRM do médico (sem pontos ou tracos): ");
     scanf("%s", &crm1);
-    printf("Insira o CPF do paciente (sem pontos ou traços): ");
+    printf("Insira o CPF do paciente (sem pontos ou tracos): ");
     scanf("%s", &cpf1);
     printf("Data:\n");
     printf("\tInsira o dia: ");
@@ -584,14 +584,14 @@ void incluir_consulta(struct consulta consultas[], int *contador_consultas){
     }
 	
 	//verificando se possui repeticoes
-//	i = 0;
-//	while (i < contador){
-//		if (crm1 == consultas[i].crm && cpf1 == consultas[i].cpf && data1 == consultas[i].data && hora1 == consultas[i].hora){
-//			printf("Consulta já cadastrada!");
-//			busca_consulta = 0;
-//		}
-//		i++;
-//	}
+	i = 0;
+	while (i < contador){
+		if (strcmp(crm1, consultas[i].crm) == 0 && strcmp(cpf1, consultas[i].cpf) == 0 && dia1 == consultas[i].dia && mes1 == consultas[i].mes && ano1 == consultas[i].ano && strcmp(hora1, consultas[i].hora) == 0){
+			printf("Consulta já cadastrada!\n");
+			busca_consulta = 0;
+		}
+		i++;
+	}
 	
 	i = contador;
 	
@@ -599,7 +599,6 @@ void incluir_consulta(struct consulta consultas[], int *contador_consultas){
 	if (busca_consulta == 1){
 		strcpy(consultas[i].crm, crm1);
 	    strcpy(consultas[i].cpf, cpf1);
-//	    strcpy(consultas[i].data, data1);
 		consultas[i].dia = dia1;
 		consultas[i].mes = mes1;
 		consultas[i].ano = ano1;
@@ -613,6 +612,125 @@ void incluir_consulta(struct consulta consultas[], int *contador_consultas){
 		
 	}
 	//printf("CRM: %s\nCPF: %s\nData: %s\nHora: %s\nDiagnostico: %s\n", consultas[0].crm, consultas[0].cpf, consultas[0].data, consultas[0].hora, consultas[0].diagnostico);
+}
+
+void alterar_consulta(struct consulta consultas[], int *contador_consultas){
+	int voltar = 0, dia_desejado = 0, mes_desejado = 0, ano_desejado = 0;
+	int contador = *contador_consultas;
+	int i = 0, x, num_medicamentos1 = 0, dia1 = 0, mes1 = 0, ano1 = 0;
+	char crm_desejado[20], cpf_desejado[18], hora_desejado[6];
+	char crm1[20], cpf1[18], hora1[6], diagnostico1[100], medicamentos1[10][50];
+   	
+	system("cls");
+	printf("Insira o CRM do médico (sem pontos ou tracos) da consulta a alterar: ");
+    scanf("%s", &crm_desejado);
+    printf("Insira o CPF do paciente (sem pontos ou tracos) da consulta a alterar: ");
+    scanf("%s", &cpf_desejado);
+    printf("Data da consulta a alterar:\n");
+    printf("\tInsira o dia: ");
+    scanf("%d", &dia_desejado);
+    printf("\tInsira o mês: ");
+    scanf("%d", &mes_desejado);
+    printf("\tInsira o ano: ");
+    scanf("%d", &ano_desejado);
+    printf("Insira a hora (sem pontos ou traços) da consulta a alterar: ");
+    scanf("%s", &hora_desejado);
+    
+	for(i = 0; i < contador; i++){
+		int res = 0;
+		if(strcmp(consultas[i].crm, crm_desejado) == 0 && strcmp(consultas[i].cpf, cpf_desejado) == 0 && consultas[i].dia == dia_desejado && consultas[i].mes == mes_desejado && consultas[i].ano == ano_desejado && strcmp(consultas[i].hora, hora_desejado) == 0){
+			printf("Deseja alterar o CRM(1 = sim/0 = nao)?");
+			scanf("%d", &res);
+			if(res == 1){
+				printf("Insira o CRM do medico (sem pontos ou tracos):");
+				scanf("%s", &crm1);
+				strcpy(consultas[i].crm, crm1);
+			}
+			printf("Deseja alterar o CPF do paciente(1 = sim/0 = nao)?");
+			scanf("%d", &res);
+			if(res == 1){
+				printf("Insira o CPF (sem pontos ou tracos):");
+		    	scanf("%s", &cpf1);
+		    	strcpy(consultas[i].cpf, cpf1);
+			}
+			printf("Deseja alterar a data(1 = sim/0 = nao)?");
+			scanf("%d", &res);
+			if(res == 1){
+				printf("Insira a data (xx xx xxxx):");
+				scanf("%d %d %d", &dia1, &mes1, &ano1);
+				consultas[i].dia = dia1;
+		   		consultas[i].mes = mes1;
+		   		consultas[i].ano = ano1;
+			}
+		    printf("Deseja alterar a hora(1 = sim/0 = nao)?");
+			scanf("%d", &res);
+			if(res == 1){
+				printf("Insira a hora (sem pontos ou tracos):");
+			    scanf("%s", &hora1);
+				strcpy(consultas[i].hora, hora1);	
+			}
+			printf("Deseja alterar o diagnóstico(1 = sim/0 = nao)?");
+			scanf("%d", &res);
+			if(res == 1){
+				printf("Insira o diagnóstico:");
+			    scanf("%s", &diagnostico1);
+				strcpy(consultas[i].diagnostico, diagnostico1);	
+			}
+		    printf("Deseja alterar os medicamentos(1 = sim/0 = nao)?");
+			scanf("%d", &res);
+			if(res == 1){
+				printf("Insira a quantidade de medicamentos:");
+		    	scanf("%d", &num_medicamentos1);
+		    	consultas[i].num_medicamentos = num_medicamentos1;
+		    	for(x = 0; x < num_medicamentos1; x++){
+		       		printf("Insira o medicamneto %d:", x + 1);
+		       		scanf("%s", &medicamentos1[x]);
+		   		}
+		   		for(x = 0; x < num_medicamentos1; x++){
+					strcpy(consultas[i].medicamentos[x], medicamentos1[x]);
+		   		}
+			}
+		}	
+	}
+	printf("\ninsira qualquer valor para voltar ao menu de consultas:");
+	scanf("%d", &voltar);
+
+}
+
+void exclui_consulta(struct consulta consultas[], int *contador_consultas){
+	system("cls");
+	int contador = *contador_consultas;
+	char crm_desejado[20], cpf_desejado[18], hora_desejado[6];
+	int dia_desejado = 0, mes_desejado = 0, ano_desejado = 0;
+	
+	printf("Insira o CRM (sem pontos ou tracos) da consulta a excluir: ");
+    scanf("%s", &crm_desejado);
+    printf("Insira o CPF do paciente (sem pontos ou tracos) da consulta a excluir: ");
+    scanf("%s", &cpf_desejado);
+    printf("Data da consulta a excluir:\n");
+    printf("\tInsira o dia: ");
+    scanf("%d", &dia_desejado);
+    printf("\tInsira o mês: ");
+    scanf("%d", &mes_desejado);
+    printf("\tInsira o ano: ");
+    scanf("%d", &ano_desejado);
+    printf("Insira a hora (sem pontos ou traços) da consulta a excluir: ");
+    scanf("%s", &hora_desejado);
+    
+	int achou = 0, x, i;
+	for(i = 0; i < contador && achou == 0; i++){
+		if(strcmp(consultas[i].crm, crm_desejado) == 0 && strcmp(consultas[i].cpf, cpf_desejado) == 0 && consultas[i].dia == dia_desejado && consultas[i].mes == mes_desejado && consultas[i].ano == ano_desejado && strcmp(consultas[i].hora, hora_desejado) == 0){
+			achou = 1;
+			for(x = i; x < contador; x++){
+				consultas[x] = consultas[x + 1];
+			}
+		}	
+	}
+	if(achou == 0){
+		printf("Consulta nao encontrada!");
+	}else{
+		(*contador_consultas)--;
+	}
 }
 
 
@@ -946,16 +1064,16 @@ int main()
 					incluir_consulta(consultas, &contador_consultas);
 			        break;
 			    case 4:
-			        //Alterar();
+			        alterar_consulta(consultas, &contador_consultas);
 			        break;
 			    case 5:
-			        //Alterar();
+			        exclui_consulta(consultas, &contador_consultas);
 			        break;
 			    case 6:
 			        sair_consulta = 1;
 			        break;
 			    
-			    default: printf("\nvalor invalido\n");
+			    default: printf("\nvalor inválido\n");
 			        break;
 			    }
 			}
