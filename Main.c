@@ -404,56 +404,56 @@ void incluir_consulta(struct consulta consultas[], int *contador_consultas){
 void filtra_especialidade(struct medico medicos[]){
 	int i, j, encontrou = 0;
 	char especialidade1[100];
+	
 	printf("Insira a especialidade: ");
 	scanf("%s", &especialidade1);
 	
 	for (i = 0; i < tamanho; i++){
-		if (strcmp(medicos[i].especialidade, especialidade1) == 0){
-			printf("Médico: ");
+		if (strcmp(medicos[i].especialidade, especialidade1) == 0){		//busca no vetor medicos com a
+			printf("\nMédico: ");										//especialidade e imprime
 			printf("\n\tCRM: %s", medicos[i].crm);
 		    printf("\n\tNome: %s", medicos[i].nome);
-		    printf("\n\tData de nascimento: %s", medicos[i].nascimento);
+		    printf("\n\tData de nascimento: %d/%d/%d", medicos[i].dia_nasc, medicos[i].mes_nasc, medicos[i].ano_nasc);
 		    printf("\n\tSexo: %c", medicos[i].sexo);
 		    printf("\n\tEspecialidade: %s", medicos[i].especialidade);
 		    printf("\n\tUniversidade: %s", medicos[i].universidade);
-//		    printf("\n\tE-mail: %s", medicos[i].email[0]);
-//		    printf("\n\tTelefone: %s\n", medicos[i].telefone[0]);
-			for(j = 0; j < 2; j++){
-			printf("%s", medicos[i].email[j]);
+			for(j = 0; j < medicos[i].n_emails; j++){
+				printf("\n\t%s", medicos[i].email[j]);
 			}
-			for(j = 0; j < 2; j++){
-				printf("%s", medicos[i].telefone[j]);
+			for(j = 0; j < medicos[i].n_telefones; j++){
+				printf("\n\t%s", medicos[i].telefone[j]);
 			}
-		    
-		    if (encontrou == 0)
-		    	encontrou++;
+		    encontrou++;
 		}
 	}
-	if (encontrou == 1)
+	if (encontrou == 0)
 		printf("Nenhum médico com essa especialidade foi encontrado!");
 }
 
 void menor_idade(struct paciente pacientes[]){
-	int i, idade, encontrou = 0, dia_atual = 17, mes_atual = 4, ano_atual = 2022;
+	int i, j, idade, encontrou = 0, dia_atual = 17, mes_atual = 4, ano_atual = 2022;
 	
 	printf("Insira a idade: ");
 	scanf("%d", &idade);
-	//printf("Aquiiiiiii");
 	
-	for (i = 0; i < tamanho; i++){
+	for (i = 0; i < tamanho; i++){						//filtra a idade
 		if (pacientes[i].ano_nasc >= ano_atual - idade){
 			if (pacientes[i].mes_nasc <= mes_atual || pacientes[i].ano_nasc > ano_atual - idade){
-				if (pacientes[i].mes_nasc == mes_atual && pacientes[i].dia_nasc <= dia_atual || pacientes[i].mes_nasc <= mes_atual){
-					printf("Paciente:");
+				if (pacientes[i].mes_nasc == mes_atual && pacientes[i].dia_nasc <= dia_atual || pacientes[i].mes_nasc < mes_atual || pacientes[i].mes_nasc > mes_atual || pacientes[i].ano_nasc > ano_atual - idade){
+					printf("\nPaciente:");
 					printf("\n\tCPF: %s", pacientes[i].cpf);
 					printf("\n\tNome: %s", pacientes[i].nome);
 					printf("\n\tData de nascimento: %d/%d/%d", pacientes[i].dia_nasc, pacientes[i].mes_nasc, pacientes[i].ano_nasc);
 					printf("\n\tSexo: %c", pacientes[i].sexo);
 					printf("\n\tPlano: %s", pacientes[i].plano);
-					printf("\n\te-mail: %s", pacientes[i].email);
-					printf("\n\tTelefone: %s\n", pacientes[i].telefone);
+					for(j = 0; j < pacientes[i].n_emails; j++){
+						printf("\n\t%s", pacientes[i].email[j]);
+					}
+					for(j = 0; j < pacientes[i].n_telefones; j++){
+						printf("\n\t%s", pacientes[i].telefone[j]);
+					}
 					
-					encontrou = 1;
+					encontrou++;
 				}
 			}
 		}
@@ -461,6 +461,56 @@ void menor_idade(struct paciente pacientes[]){
 	
 	if (encontrou == 0)
 		printf("Nenhum paciente encontrado!");
+}
+
+void filtra_consultas_dias(struct medico medicos[], struct paciente pacientes[], struct consulta consultas[], int contador_consultas, int contador_medicos, int contador_pacientes){
+	int achou = 0, dias_filtro, dias_consulta, i, j, cont_consultas = contador_consultas, cont_medicos = contador_medicos, cont_pacientes = contador_pacientes;
+	char crm1[20];
+	
+	printf("Insira o número de dias: ");
+	scanf("%d", &dias_filtro);
+
+	for (i = 0; i < cont_consultas; i++){
+		dias_consulta = 0;
+		
+		if (consultas[i].ano == 2022){
+			if(consultas[i].mes == 4)
+				dias_consulta = consultas[i].dia;	
+			else{
+				dias_consulta = consultas[i].dia;
+				for (j = consultas[i].mes; j > 0; j--)
+					dias_consulta += 31;
+			}
+		}
+		else{
+			dias_consulta = consultas[i].dia;
+			for (j = consultas[i].mes; j > 0; j--)
+				dias_consulta += 31;
+			for (j = consultas[i].ano; j < 2022; j++)
+				dias_consulta += 365;
+		}
+		
+		if (dias_consulta <= dias_filtro){
+			printf("Consulta:\n");
+			achou++;
+			
+			for(j = 0; j < cont_medicos; j++){
+				if(strcmp(consultas[i].crm, medicos[j].crm) == 0)
+					printf("\tCRM: %s\n\tNome do medico: %s", medicos[j].crm, medicos[j].nome);
+			}
+			
+			for(j = 0; j < cont_pacientes; j++){
+				if(strcmp(consultas[i].cpf, pacientes[j].cpf) == 0)
+					printf("\n\tCPF: %s\n\tNome do paciente: %s", pacientes[j].cpf, pacientes[j].nome);
+			}
+			
+			printf("\n\tData: %d/%d/%d\n\tHora: %s\n\tDiagnóstico: %s\n", consultas[i].dia, consultas[i].mes, consultas[i].ano, consultas[i].hora, consultas[i].diagnostico);
+			for(j = 0; j < consultas[i].num_medicamentos; j++)
+				printf("\tMedicamento %d: %s\n", j + 1, consultas[i].medicamentos[j]);
+		}
+	}
+	if(achou == 0)
+		printf("Nenhuma consulta encontrada!");
 }
 
 
@@ -698,10 +748,10 @@ int main()
 	        while (sair_relatorio == 0){
 	        	//system("cls");
 			    int res = 0;
-			    printf("SUBMENU RELATORIOS\n\n");
+			    printf("\nSUBMENU RELATORIOS\n\n");
 			    printf("1. Mostrar todos os dados de todos os medicos a partir de uma especialidade\n");
 			    printf("2. Mostrar todos os dados de todos os pacientes menores de X anos de idade\n");
-			    printf("3. Mostrar o CRM, o nome do medico, o CPF do paciente, o nome do paciente, data, hora, diagnostico e medicamentos para todas as consultas realizadas nos últimos X dias\n");
+			    printf("3. Mostrar o CRM, o nome do medico, o CPF do paciente, o nome do paciente, data, hora, diagnóstico e medicamentos para todas as consultas realizadas nos últimos X dias\n");
 			    printf("4. Voltar ao Menu Principal\n");
 			    printf("Digite o recurso desejado: ");
 			    scanf("%d", &res);
@@ -714,7 +764,7 @@ int main()
 			        menor_idade(pacientes);
 			        break;
 			    case 3:
-			        //filtra_consultas_dias(medicos, pacientes, consultas);
+			        filtra_consultas_dias(medicos, pacientes, consultas, contador_consultas, contador_medicos, contador_pacientes);
 			        break;
 			    case 4:
 			        sair_relatorio = 1;
