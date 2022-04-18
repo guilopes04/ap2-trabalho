@@ -585,22 +585,21 @@ int main()
 			    printf("6. Voltar ao Menu Principal\n");
 			    printf("Digite o recurso desejado: ");
 			    scanf("%d", &res);
-			    switch (res)
 			    {
 			    case 1:
 			        listar_todos_medicos(medicos, &contador_medicos);
 			        break;
 			    case 2:
-			        //listar_um();
+			        listar_um_medico(medicos, &contador_medicos);
 			        break;
 			    case 3:
 			        Incluir_medico(medicos, &contador_medicos);
 			        break;
 			    case 4:
-			        //Alterar();
+			        alterar_um_medico(medicos, &contador_medicos);
 			        break;
 			    case 5:
-			        //Alterar();
+			        deleta_medico(medicos, &contador_medicos);
 			        break;
 			    case 6:
 			        sair_medico = 1;
