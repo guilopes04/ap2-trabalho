@@ -52,10 +52,10 @@ struct consulta{
 //-----------	FUNCOES MEDICOS	  ----------------------------------------------------------------------
 
 void listar_todos_medicos(struct medico medicos[], int *contador_medicos){
-	int voltar = 0;
+	int voltar = 0, i, j, x;
 	int contador = *contador_medicos;
 	system("cls");
-	for(int i = 0; i < contador; i++){
+	for(i = 0; i < contador; i++){
 		int num_emails = medicos[i].n_emails;
 		int num_telefones = medicos[i].n_telefones;
 		printf("\nMedico %d\n", i + 1);
@@ -65,10 +65,10 @@ void listar_todos_medicos(struct medico medicos[], int *contador_medicos){
 		printf("SEXO: %c\n", medicos[i].sexo);
 		printf("ESPECIALIDADE: %s\n", medicos[i].especialidade);
 		printf("UNIVERSIDADE: %s\n", medicos[i].universidade);
-		for(int j = 0; j < num_emails; j++){
+		for(j = 0; j < num_emails; j++){
 			printf("EMAIL %d: %s\n", j + 1, medicos[i].email[j]);
 		}
-		for(int x = 0; x < num_telefones; x++){
+		for(x = 0; x < num_telefones; x++){
 			printf("TELEFONE %d: %s\n", x + 1, medicos[i].telefone[x]);
 		}
 	}
@@ -78,14 +78,14 @@ void listar_todos_medicos(struct medico medicos[], int *contador_medicos){
 }
 
 void listar_um_medico(struct medico medicos[], int *contador_medicos){
-	int voltar = 0;
+	int voltar = 0, i, j, x;
 	char crm_desejado[10];
 	int contador = *contador_medicos;
 	system("cls");
 	printf("Digite o crm do medico que deseja visualizar:");
 	scanf("%s", &crm_desejado);
 	int achou = 0;
-	for(int i = 0; i < contador && achou == 0; i++){
+	for(i = 0; i < contador && achou == 0; i++){
 		if(strcmp(crm_desejado, medicos[i].crm) == 0){
 			int num_emails = medicos[i].n_emails;
 			int num_telefones = medicos[i].n_telefones;
@@ -96,10 +96,10 @@ void listar_um_medico(struct medico medicos[], int *contador_medicos){
 			printf("SEXO: %c\n", medicos[i].sexo);
 			printf("ESPECIALIDADE: %s\n", medicos[i].especialidade);
 			printf("UNIVERSIDADE: %s\n", medicos[i].universidade);
-			for(int j = 0; j < num_emails; j++){
+			for(j = 0; j < num_emails; j++){
 				printf("EMAIL %d: %s\n", j + 1, medicos[i].email[j]);
 			}
-			for(int x = 0; x < num_telefones; x++){
+			for(x = 0; x < num_telefones; x++){
 				printf("TELEFONE %d: %s\n", x + 1, medicos[i].telefone[x]);
 			}
 		}
@@ -116,14 +116,15 @@ void listar_um_medico(struct medico medicos[], int *contador_medicos){
 void deleta_medico(struct medico medicos[], int *contador_medicos){
 	system("cls");
 	int contador = *contador_medicos;
+	int i, x;
 	char crm_desejado[10];
 	printf("Digite o crm do medico que deseja deletar:");
 	scanf("%s", &crm_desejado);
 	int achou = 0;
-	for(int i = 0; i < contador && achou == 0; i++){
+	for(i = 0; i < contador && achou == 0; i++){
 		if(strcmp(crm_desejado, medicos[i].crm) == 0){
 			achou = 1;
-			for(int x = i; x < contador; x++){
+			for(x = i; x < contador; x++){
 				medicos[x] = medicos[x + 1];
 			}
 		}	
@@ -140,11 +141,11 @@ void alterar_um_medico(struct medico medicos[], int *contador_medicos){
 	char crm_desejado[10];
 	int contador = *contador_medicos;
 	char crm1[20], nome1[18], sexo1, especialidade1[100], universidade1[50], emails1[2][50], telefones1[2][20];
-   	int i = 0, num_emails = 0, num_telefones = 0, dia_nasc1 = 0, mes_nasc1 = 0, ano_nasc1 = 0;
+   	int i = 0, x, num_emails = 0, num_telefones = 0, dia_nasc1 = 0, mes_nasc1 = 0, ano_nasc1 = 0;
 	system("cls");
 	printf("Digite o crm do medico que deseja alterar:");
 	scanf("%s", &crm_desejado);
-	for(int i = 0; i < contador; i++){
+	for(i = 0; i < contador; i++){
 		int num_emails = medicos[i].n_emails;
 		int num_telefones = medicos[i].n_telefones;
 		int res = 0;
@@ -196,7 +197,7 @@ void alterar_um_medico(struct medico medicos[], int *contador_medicos){
 		       		printf("Insira o email numero %d:", i + 1);
 		       		scanf("%s", &emails1[i]);
 		   		}
-		   		for(int x = 0; x < num_emails; x++){
+		   		for(x = 0; x < num_emails; x++){
 					strcpy(medicos[i].email[x], emails1[x]);
 		   		}
 			}
@@ -210,7 +211,7 @@ void alterar_um_medico(struct medico medicos[], int *contador_medicos){
 		       		printf("Insira o telefone numero %d:", i + 1);
 		       		scanf("%s", &telefones1[i]);
 		   		}
-		   		for(int x = 0; x < num_telefones; x++){
+		   		for(x = 0; x < num_telefones; x++){
 					strcpy(medicos[i].telefone[x], telefones1[x]);
 		   		}
 			}
@@ -230,58 +231,60 @@ void Incluir_medico(struct medico medicos[], int *contador_medicos){
 
    printf("Insira o CRM do medico: ");
    scanf("%s", &crm1);
-   for(int i = 0; i < contador; i++){
+   for(i = 0; i < contador; i++){
 	   if(strcmp(crm1,medicos[i].crm) == 0){
 		   printf("Este crm já existe\n");
-	   }
+	   }else{
+		   printf("Insira o nome do medico:");
+			gets(nome1);
+			printf("Insira a data de nascimento (xx xx xxxx):");
+			scanf("%d %d %d", &dia_nasc1, &mes_nasc1, &ano_nasc1);
+			printf("Insira o sexo: ");
+			scanf("%s", &sexo1);
+			printf("Insira a especialidade:");
+			scanf("%s", &especialidade1);
+			printf("Insira a universidade que se formou:");
+			scanf("%s", &universidade1);
+			printf("Insira a quantidade de emails que o medico possui:");
+			scanf("%d", &num_emails);
+			medicos[contador].n_emails = num_emails;
+			printf("Insira a quantidade de telefones que o medico possui:");
+			scanf("%d", &num_telefones);
+			medicos[contador].n_telefones = num_telefones;
+			for(i = 0; i < num_emails; i++){
+				printf("Insira o email numero %d:", i + 1);
+				scanf("%s", &emails1[i]);
+			}
+			for(i = 0; i < num_emails; i++){
+				printf("Insira o telefone numero %d:", i + 1);
+				scanf("%s", &telefones1[i]);
+			}
+			strcpy(medicos[contador].crm, crm1);
+			strcpy(medicos[contador].nome, nome1);
+			medicos[contador].dia_nasc = dia_nasc1;
+			medicos[contador].mes_nasc = mes_nasc1;
+			medicos[contador].ano_nasc = ano_nasc1;
+			medicos[contador].sexo = sexo1;
+			strcpy(medicos[contador].especialidade, especialidade1);
+			strcpy(medicos[contador].universidade, universidade1);
+			for(i = 0; i < num_emails; i++){
+				strcpy(medicos[contador].email[i], emails1[i]);
+			}
+			for(i = 0; i < num_telefones; i++){
+				strcpy(medicos[contador].telefone[i], telefones1[i]);
+			}
+			(*contador_medicos)++;
+	   	}
    }
-   printf("Insira o nome do medico:");
-   scanf("%s", &nome1);
-   printf("Insira a data de nascimento (xx xx xxxx):");
-   scanf("%d %d %d", &dia_nasc1, &mes_nasc1, &ano_nasc1);
-   printf("Insira o sexo: ");
-   scanf("%s", &sexo1);
-   printf("Insira a especialidade:");
-   scanf("%s", &especialidade1);
-   printf("Insira a universidade que se formou:");
-   scanf("%s", &universidade1);
-   printf("Insira a quantidade de emails que o medico possui:");
-   scanf("%d", &num_emails);
-   medicos[contador].n_emails = num_emails;
-   printf("Insira a quantidade de telefones que o medico possui:");
-   scanf("%d", &num_telefones);
-   medicos[contador].n_telefones = num_telefones;
-   for(i = 0; i < num_emails; i++){
-       printf("Insira o email numero %d:", i + 1);
-       scanf("%s", &emails1[i]);
-   }
-   for(i = 0; i < num_emails; i++){
-       printf("Insira o telefone numero %d:", i + 1);
-       scanf("%s", &telefones1[i]);
-   }
-   strcpy(medicos[contador].crm, crm1);
-   strcpy(medicos[contador].nome, nome1);
-   medicos[contador].dia_nasc = dia_nasc1;
-   medicos[contador].mes_nasc = mes_nasc1;
-   medicos[contador].ano_nasc = ano_nasc1;
-   medicos[contador].sexo = sexo1;
-   strcpy(medicos[contador].especialidade, especialidade1);
-   strcpy(medicos[contador].universidade, universidade1);
-   for(int i = 0; i < num_emails; i++){
-		strcpy(medicos[contador].email[i], emails1[i]);
-   }
-   for(int i = 0; i < num_telefones; i++){
-		strcpy(medicos[contador].telefone[i], telefones1[i]);
-   }
-   (*contador_medicos)++;
+   
 }
 //-----------	FUNCOES PACIENTES	  ----------------------------------------------------------------------
 
 void listar_todos_pacientes(struct paciente pacientes[], int *contador_pacientes){
-	int voltar = 0;
+	int voltar = 0, i, j, x;
 	int contador = *contador_pacientes;
 	system("cls");
-	for(int i = 0; i < contador; i++){
+	for(i = 0; i < contador; i++){
 		int num_emails = pacientes[i].n_emails;
 		int num_telefones = pacientes[i].n_telefones;
 		printf("\nPaciente %d\n", i + 1);
@@ -290,10 +293,10 @@ void listar_todos_pacientes(struct paciente pacientes[], int *contador_pacientes
 		printf("NASCIMENTO: %d/%d/%d\n", pacientes[i].dia_nasc, pacientes[i].mes_nasc, pacientes[i].ano_nasc);
 		printf("SEXO: %c\n", pacientes[i].sexo);
 		printf("PLANO: %s\n", pacientes[i].plano);
-		for(int j = 0; j < num_emails; j++){
+		for(j = 0; j < num_emails; j++){
 			printf("EMAIL %d: %s\n", j + 1, pacientes[i].email[j]);
 		}
-		for(int x = 0; x < num_telefones; x++){
+		for(x = 0; x < num_telefones; x++){
 			printf("TELEFONE %d: %s\n", x + 1, pacientes[i].telefone[x]);
 		}
 	}
@@ -303,14 +306,14 @@ void listar_todos_pacientes(struct paciente pacientes[], int *contador_pacientes
 }
 
 void listar_um_paciente(struct paciente pacientes[], int *contador_pacientes){
-	int voltar = 0;
+	int voltar = 0, i, j, x;
 	char cpf_desejado[10];
 	int contador = *contador_pacientes;
 	system("cls");
 	printf("Digite o cpf do paciente que deseja visualizar:");
 	scanf("%s", &cpf_desejado);
 	int achou = 0;
-	for(int i = 0; i < contador && achou == 0; i++){
+	for(i = 0; i < contador && achou == 0; i++){
 		if(strcmp(cpf_desejado, pacientes[i].cpf) == 0){
 			int num_emails = pacientes[i].n_emails;
 		    int num_telefones = pacientes[i].n_telefones;
@@ -320,10 +323,10 @@ void listar_um_paciente(struct paciente pacientes[], int *contador_pacientes){
 			printf("NASCIMENTO: %d/%d/%d\n", pacientes[i].dia_nasc, pacientes[i].mes_nasc, pacientes[i].ano_nasc);
 			printf("SEXO: %c\n", pacientes[i].sexo);
 			printf("PLANO: %s\n", pacientes[i].plano);
-			for(int j = 0; j < num_emails; j++){
+			for(j = 0; j < num_emails; j++){
 				printf("EMAIL %d: %s\n", j + 1, pacientes[i].email[j]);
 			}
-			for(int x = 0; x < num_telefones; x++){
+			for(x = 0; x < num_telefones; x++){
 				printf("TELEFONE %d: %s\n", x + 1, pacientes[i].telefone[x]);
 			}
 		}
@@ -341,13 +344,14 @@ void deleta_paciente(struct paciente pacientes[], int *contador_pacientes){
 	system("cls");
 	int contador = *contador_pacientes;
 	char cpf_desejado[10];
+	int i, x;
 	printf("Digite o cpf do medico que deseja deletar:");
 	scanf("%s", &cpf_desejado);
 	int achou = 0;
-	for(int i = 0; i < contador && achou == 0; i++){
+	for(i = 0; i < contador && achou == 0; i++){
 		if(strcmp(cpf_desejado, pacientes[i].cpf) == 0){
 			achou = 1;
-			for(int x = i; x < contador; x++){
+			for(x = i; x < contador; x++){
 				pacientes[x] = pacientes[x + 1];
 			}
 		}	
@@ -364,11 +368,11 @@ void alterar_um_paciente(struct paciente pacientes[], int *contador_pacientes){
 	char cpf_desejado[10];
 	int contador = *contador_pacientes;
    	char cpf1[18], nome1[40], sexo1, plano1[20], emails1[2][25], telefones1[2][20];
-   	int i = 0, num_emails = 0, num_telefones = 0, dia_nasc1 = 0, mes_nasc1 = 0, ano_nasc1 = 0;
+   	int i = 0, x, num_emails = 0, num_telefones = 0, dia_nasc1 = 0, mes_nasc1 = 0, ano_nasc1 = 0;
    	system("cls");
 	printf("Digite o cpf do paciente que deseja alterar:");
 	scanf("%s", &cpf_desejado);
-	for(int i = 0; i < contador; i++){
+	for(i = 0; i < contador; i++){
 		int num_emails = pacientes[i].n_emails;
 		int num_telefones = pacientes[i].n_telefones;
 		int res = 0;
@@ -413,7 +417,7 @@ void alterar_um_paciente(struct paciente pacientes[], int *contador_pacientes){
 		       		printf("Insira o email numero %d:", i + 1);
 		       		scanf("%s", &emails1[i]);
 		   		}
-		   		for(int x = 0; x < num_emails; x++){
+		   		for(x = 0; x < num_emails; x++){
 					strcpy(pacientes[i].email[x], emails1[x]);
 		   		}
 			}
@@ -427,7 +431,7 @@ void alterar_um_paciente(struct paciente pacientes[], int *contador_pacientes){
 		       		printf("Insira o telefone numero %d:", i + 1);
 		       		scanf("%s", &telefones1[i]);
 		   		}
-		   		for(int x = 0; x < num_telefones; x++){
+		   		for(x = 0; x < num_telefones; x++){
 					strcpy(pacientes[i].telefone[x], telefones1[x]);
 		   		}
 			}
@@ -449,44 +453,46 @@ void Incluir_paciente(struct paciente pacientes[], int *contador_pacientes){
    for(int i = 0; i < contador; i++){
 	   if(strcmp(cpf1,pacientes[i].cpf) == 0){
 		   printf("Este cpf ja existe\n");
+	   }else{
+		   	printf("Insira o nome do paciente:");
+   			gets(nome1);
+   			printf("Insira a data de nascimento (xx xx xxxx):");
+			scanf("%d %d %d", &dia_nasc1, &mes_nasc1, &ano_nasc1);
+			printf("Insira o sexo: ");
+			scanf("%s", &sexo1);
+			printf("Insira o plano:");
+			scanf("%s", &plano1);
+			printf("Insira a quantidade de emails que o paciente possui:");
+			scanf("%d", &num_emails);
+			pacientes[contador].n_emails = num_emails;
+			printf("Insira a quantidade de telefones que o paciente possui:");
+			scanf("%d", &num_telefones);
+			pacientes[contador].n_telefones = num_telefones;
+			for(i = 0; i < num_emails; i++){
+				printf("Insira o email numero %d:", i + 1);
+				scanf("%s", &emails1[i]);
+			}
+			for(i = 0; i < num_emails; i++){
+				printf("Insira o telefone numero %d:", i + 1);
+				scanf("%s", &telefones1[i]);
+			}
+			strcpy(pacientes[contador].cpf, cpf1);
+			strcpy(pacientes[contador].nome, nome1);
+			pacientes[contador].dia_nasc = dia_nasc1;
+			pacientes[contador].mes_nasc = mes_nasc1;
+			pacientes[contador].ano_nasc = ano_nasc1;
+			pacientes[contador].sexo = sexo1;
+			strcpy(pacientes[contador].plano, plano1);
+			for(i = 0; i < num_emails; i++){
+					strcpy(pacientes[contador].email[i], emails1[i]);
+			}
+			for(i = 0; i < num_telefones; i++){
+					strcpy(pacientes[contador].telefone[i], telefones1[i]);
+			}
+			(*contador_pacientes)++;
 	   }
    }
-   printf("Insira o nome do paciente:");
-   scanf("%s", &nome1);
-   printf("Insira a data de nascimento (xx xx xxxx):");
-   scanf("%d %d %d", &dia_nasc1, &mes_nasc1, &ano_nasc1);
-   printf("Insira o sexo: ");
-   scanf("%s", &sexo1);
-   printf("Insira o plano:");
-   scanf("%s", &plano1);
-   printf("Insira a quantidade de emails que o paciente possui:");
-   scanf("%d", &num_emails);
-   pacientes[contador].n_emails = num_emails;
-   printf("Insira a quantidade de telefones que o paciente possui:");
-   scanf("%d", &num_telefones);
-   pacientes[contador].n_telefones = num_telefones;
-   for(i = 0; i < num_emails; i++){
-       printf("Insira o email numero %d:", i + 1);
-       scanf("%s", &emails1[i]);
-   }
-   for(i = 0; i < num_emails; i++){
-       printf("Insira o telefone numero %d:", i + 1);
-       scanf("%s", &telefones1[i]);
-   }
-   strcpy(pacientes[contador].cpf, cpf1);
-   strcpy(pacientes[contador].nome, nome1);
-   pacientes[contador].dia_nasc = dia_nasc1;
-   pacientes[contador].mes_nasc = mes_nasc1;
-   pacientes[contador].ano_nasc = ano_nasc1;
-   pacientes[contador].sexo = sexo1;
-   strcpy(pacientes[contador].plano, plano1);
-   for(int i = 0; i < num_emails; i++){
-		strcpy(pacientes[contador].email[i], emails1[i]);
-   }
-   for(int i = 0; i < num_telefones; i++){
-		strcpy(pacientes[contador].telefone[i], telefones1[i]);
-   }
-   (*contador_pacientes)++;
+   
 }
 
 
