@@ -224,6 +224,7 @@ void alterar_um_medico(struct medico medicos[], int *contador_medicos){
 
 void Incluir_medico(struct medico medicos[], int *contador_medicos){
 	int contador = *contador_medicos;
+	medicos = (struct medico *)realloc(medicos, (contador + 1)*sizeof(struct medico)); // aloca mais uma posição no vetor
 	char crm1[20], nome1[18], sexo1, especialidade1[100], universidade1[50], emails1[2][50], telefones1[2][20];
 	int i = 0, num_emails = 0, num_telefones = 0, dia_nasc1 = 0, mes_nasc1 = 0, ano_nasc1 = 0;
 	int achou = 0;
@@ -231,7 +232,7 @@ void Incluir_medico(struct medico medicos[], int *contador_medicos){
 	system("cls");
 	fflush(stdin);
 	printf("Insira o CRM do medico: ");
-	gets(&crm1);
+	scanf("%s", &crm1);
 	for(i = 0; i < contador; i++){
 		if(strcmp(crm1,medicos[i].crm) == 0){
 			printf("Este crm já existe\n");
@@ -880,15 +881,27 @@ int main()
 {
 	setlocale(LC_ALL, "Portuguese");
 	
-	struct consulta consultas[tamanho];
-	struct medico medicos[tamanho];
-	struct paciente pacientes[tamanho];
+	
 	
 	
 	int sair = 0, contador_consultas = 0; 
 	int contador_medicos = 0;
 	int contador_pacientes = 0;
 	
+	struct consulta *consultas;
+	struct medico *medicos;
+	struct paciente *pacientes;
+	medicos = (struct medico *)malloc(contador_medicos * sizeof(struct medico));
+	if(!medicos){
+		printf("\n[ERROR]: Não foi possível alocar a memoria");
+		exit;
+	}
+	pacientes = (struct paciente *)malloc(contador_pacientes * sizeof(struct paciente));
+	if(!pacientes){
+		printf("\n[ERROR]:Não foi possível alocar a memoria");
+		exit;
+	}
+
 	while (sair == 0){
 		int sair_medico = 0, sair_paciente = 0, sair_consulta = 0, sair_relatorio = 0;
 	    system("cls");
