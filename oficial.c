@@ -559,7 +559,7 @@ void incluir_consulta(struct consulta consultas[], int *contador_consultas, stru
     char crm1[20], cpf1[18], hora1[6], diagnostico1[100];
     int i, j, num_medicamentos1, dia1, mes1, ano1, busca_consulta = 1, contador = *contador_consultas;
     int achouMedico = 0, achouPaciente = 0;
-
+	consultas = (struct consulta *)realloc(consultas, (contador + 1)*sizeof(struct consulta)); // aloca mais uma posição no vetor
 
     system("cls");
 	
@@ -899,6 +899,11 @@ int main()
 	}
 	pacientes = (struct paciente *)malloc(contador_pacientes * sizeof(struct paciente));
 	if(!pacientes){
+		printf("\n[ERROR]:Não foi possível alocar a memoria");
+		exit;
+	}
+	consultas = (struct consulta *)malloc(contador_consultas * sizeof(struct consulta));
+	if(!consultas){
 		printf("\n[ERROR]:Não foi possível alocar a memoria");
 		exit;
 	}
