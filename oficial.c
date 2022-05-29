@@ -449,6 +449,7 @@ void alterar_um_paciente(struct paciente pacientes[], int *contador_pacientes){
 
 void Incluir_paciente(struct paciente pacientes[], int *contador_pacientes){
    int contador = *contador_pacientes;
+   pacientes = (struct paciente *)realloc(pacientes, (contador + 1)*sizeof(struct paciente)); // aloca mais uma posição no vetor
    char cpf1[18], nome1[40], sexo1, plano1[20], emails1[2][25], telefones1[2][20];
    int i = 0, num_emails = 0, num_telefones = 0, dia_nasc1 = 0, mes_nasc1 = 0, ano_nasc1 = 0;
    system("cls");
