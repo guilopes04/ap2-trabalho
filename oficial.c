@@ -549,63 +549,90 @@ void listar_um(struct consulta consultas[], int *contador_consultas)
 	}
 }
 
-void incluir_consulta(struct consulta consultas[], int *contador_consultas){
+void incluir_consulta(struct consulta consultas[], int *contador_consultas, struct medico medicos[], int contador_medicos, struct paciente pacientes[], int contador_pacientes){
     char crm1[20], cpf1[18], hora1[6], diagnostico1[100];
     int i, j, num_medicamentos1, dia1, mes1, ano1, busca_consulta = 1, contador = *contador_consultas;
-    
-    system("cls"); //limpando o terminal
+    int achouMedico = 0, achouPaciente = 0;
+
+
+    system("cls");
 	
     printf("Insira o CRM do médico (sem pontos ou tracos): ");
     scanf("%s", &crm1);
-    printf("Insira o CPF do paciente (sem pontos ou tracos): ");
-    scanf("%s", &cpf1);
-    printf("Data:\n");
-    printf("\tInsira o dia: ");
-    scanf("%d", &dia1);
-    printf("\tInsira o mês: ");
-    scanf("%d", &mes1);
-    printf("\tInsira o ano: ");
-    scanf("%d", &ano1);
-    printf("Insira a hora (sem pontos ou traços): ");
-    scanf("%s", &hora1);
-    printf("Insira o diagnostico: ");
-    scanf("%s", &diagnostico1);
-    printf("Insira o numero de medicamentos: ");
-    scanf("%d", &num_medicamentos1);
-    
-    char medicamentos1[num_medicamentos1][50];
-    for(i = 0; i < num_medicamentos1; i++){
-        printf("Insira o medicamento numero %.0d: ", i + 1);
-        scanf("%s", &medicamentos1[i]);
-    }
-	
-	//verificando se possui repeticoes
-	i = 0;
-	while (i < contador){
-		if (strcmp(crm1, consultas[i].crm) == 0 && strcmp(cpf1, consultas[i].cpf) == 0 && dia1 == consultas[i].dia && mes1 == consultas[i].mes && ano1 == consultas[i].ano && strcmp(hora1, consultas[i].hora) == 0){
-			printf("Consulta já cadastrada!\n");
-			busca_consulta = 0;
-		}
-		i++;
+
+	//verificando se o medico ja foi cadastrado
+	for(i = 0; i < contador_medicos; i++){
+	   if(strcmp(crm1,medicos[i].crm) == 0){
+		   achouMedico = 1;
+	   }
 	}
-	
-	i = contador;
-	
-	if (busca_consulta == 1){
-		strcpy(consultas[i].crm, crm1);
-	    strcpy(consultas[i].cpf, cpf1);
-		consultas[i].dia = dia1;
-		consultas[i].mes = mes1;
-		consultas[i].ano = ano1;
-	    strcpy(consultas[i].hora, hora1);
-	    strcpy(consultas[i].diagnostico, diagnostico1);
-	    consultas[i].num_medicamentos = num_medicamentos1;
-	    for (j = 0; j < num_medicamentos1; j++){
-	    	strcpy(consultas[i].medicamentos[j], medicamentos1[j]);
+	if (achouMedico == 1){
+		printf("Insira o CPF do paciente (sem pontos ou tracos): ");
+		scanf("%s", &cpf1);
+
+		//verificando se o paciente ja foi cadastrado
+		for(i = 0; i < contador_pacientes; i++){
+			if(strcmp(crm1,pacientes[i].cpf) == 0){
+				achouPaciente = 1;
+			}
 		}
-		(*contador_consultas)++; //incrementando o contador de consultas
-		
+
+		if (achouPaciente == 1){
+			printf("Data:\n");
+			printf("\tInsira o dia: ");
+			scanf("%d", &dia1);
+			printf("\tInsira o mês: ");
+			scanf("%d", &mes1);
+			printf("\tInsira o ano: ");
+			scanf("%d", &ano1);
+			printf("Insira a hora (sem pontos ou traços): ");
+			scanf("%s", &hora1);
+
+			//verificando se possui repeticoes
+			i = 0;
+			while (i < contador){
+				if (strcmp(crm1, consultas[i].crm) == 0 && strcmp(cpf1, consultas[i].cpf) == 0 && dia1 == consultas[i].dia && mes1 == consultas[i].mes && ano1 == consultas[i].ano && strcmp(hora1, consultas[i].hora) == 0){
+					printf("Consulta já cadastrada!\n");
+					busca_consulta = 0;
+				}
+				i++;
+			}
+
+			if (busca_consulta == 1){
+
+				printf("Insira o diagnostico: ");
+				scanf("%s", &diagnostico1);
+				printf("Insira o numero de medicamentos: ");
+				scanf("%d", &num_medicamentos1);
+				
+				char medicamentos1[num_medicamentos1][50];
+				for(i = 0; i < num_medicamentos1; i++){
+					printf("Insira o medicamento numero %.0d: ", i + 1);
+					scanf("%s", &medicamentos1[i]);
+				}
+				
+				i = contador;
+
+				strcpy(consultas[i].crm, crm1);
+				strcpy(consultas[i].cpf, cpf1);
+				consultas[i].dia = dia1;
+				consultas[i].mes = mes1;
+				consultas[i].ano = ano1;
+				strcpy(consultas[i].hora, hora1);
+				strcpy(consultas[i].diagnostico, diagnostico1);
+				consultas[i].num_medicamentos = num_medicamentos1;
+				for (j = 0; j < num_medicamentos1; j++){
+					strcpy(consultas[i].medicamentos[j], medicamentos1[j]);
+				}
+				(*contador_consultas)++; //incrementando o contador de consultas
+			}
+		}
+		else
+			printf("Paciente não cadastrado!");
 	}
+	else
+		printf("Médico não cadastrado!");
+		sleep(10);
 }
 
 void alterar_consulta(struct consulta consultas[], int *contador_consultas){
@@ -847,7 +874,7 @@ void filtra_consultas_dias(struct medico medicos[], struct paciente pacientes[],
 
 int main()
 {
-	setlocale(LC_ALL,"portuguese");
+	setlocale(LC_ALL, "Portuguese");
 	
 	struct consulta consultas[tamanho];
 	struct medico medicos[tamanho];
@@ -957,7 +984,7 @@ int main()
 	        
 	    case 3:
 	        while(sair_consulta == 0){
-		    	system("cls");
+		    	//system("cls");
 		
 			    int res = 0;
 			    printf("SUBMENU CONSULTAS\n\n");
@@ -978,7 +1005,7 @@ int main()
 					listar_um(consultas, &contador_consultas);
 			        break;
 			    case 3: 
-					incluir_consulta(consultas, &contador_consultas);
+					incluir_consulta(consultas, &contador_consultas, medicos, contador_medicos, pacientes, contador_pacientes);
 			        break;
 			    case 4:
 			        alterar_consulta(consultas, &contador_consultas);
