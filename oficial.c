@@ -769,27 +769,76 @@ void filtra_especialidade(struct medico medicos[]){
 	
 	printf("Insira a especialidade: ");
 	scanf("%s", &especialidade1);
-	
-	for (i = 0; i < tamanho; i++){
-		if (strcmp(medicos[i].especialidade, especialidade1) == 0){		//busca no vetor medicos com a
-			printf("\nMédico: ");										//especialidade e imprime
-			printf("\n\tCRM: %s", medicos[i].crm);
-		    printf("\n\tNome: %s", medicos[i].nome);
-		    printf("\n\tData de nascimento: %d/%d/%d", medicos[i].dia_nasc, medicos[i].mes_nasc, medicos[i].ano_nasc);
-		    printf("\n\tSexo: %c", medicos[i].sexo);
-		    printf("\n\tEspecialidade: %s", medicos[i].especialidade);
-		    printf("\n\tUniversidade: %s", medicos[i].universidade);
-			for(j = 0; j < medicos[i].n_emails; j++){
-				printf("\n\t%s", medicos[i].email[j]);
-			}
-			for(j = 0; j < medicos[i].n_telefones; j++){
-				printf("\n\t%s", medicos[i].telefone[j]);
-			}
-		    encontrou++;
-		}
+
+	FILE *arqRelatorio;
+	arqRelatorio = fopen("relatorios.txt", "a");
+	if (arqRelatorio == NULL){
+		printf("Não foi possivel abrir o arquivo");
+		exit(0);
 	}
-	if (encontrou == 0)
-		printf("Nenhum médico com essa especialidade foi encontrado!");
+	else{
+		for (i = 0; i < tamanho; i++){
+			if (strcmp(medicos[i].especialidade, especialidade1) == 0){	
+				fputs("\nMédico:", arqRelatorio);							//busca no vetor medicos com a
+				fputs("\n\tCRM:", arqRelatorio);
+				fputs(medicos[i].crm, arqRelatorio);
+				fputs("\n\tNome:", arqRelatorio);
+				fputs(medicos[i].nome, arqRelatorio);
+				fputs("\n\tData de nascimento:", arqRelatorio);
+				fputs(medicos[i].dia_nasc, arqRelatorio);
+				fputs(medicos[i].mes_nasc, arqRelatorio);
+				fputs(medicos[i].ano_nasc, arqRelatorio);
+				fputs("\n\tSexo:", arqRelatorio);
+				fputs(medicos[i].sexo, arqRelatorio);
+				fputs("\n\tEspecialidade::", arqRelatorio);
+				fputs(medicos[i].especialidade, arqRelatorio);
+				fputs("\n\tUniversidade:", arqRelatorio);
+				fputs(medicos[i].universidade, arqRelatorio);
+				fputs("\n\te-mail:", arqRelatorio);
+				for(j = 0; j < medicos[i].n_emails; j++){
+					fputs("\n\t\t", arqRelatorio);
+					fputs(medicos[i].email[j], arqRelatorio);
+				}
+				fputs("\n\ttelefones:", arqRelatorio);
+				for(j = 0; j < medicos[i].n_telefones; j++){
+					fputs("\n\t\t", arqRelatorio);
+					fputs(medicos[i].telefone[j], arqRelatorio);
+				}
+				encontrou++;
+			}
+		}
+		if (encontrou == 0){
+			printf("Nenhum médico com essa especialidade foi encontrado!");
+			fclose(arqRelatorio) == 0;
+		}
+		else{
+			if (fclose(arqRelatorio) == 0)
+				printf("Relatório gravado com sucesso!");
+			else
+				printf("Não foi possível gravar o relatório!");
+		}	
+	}
+	
+	// for (i = 0; i < tamanho; i++){
+	// 	if (strcmp(medicos[i].especialidade, especialidade1) == 0){		//busca no vetor medicos com a
+	// 		printf("\nMédico: ");										//especialidade e imprime
+	// 		printf("\n\tCRM: %s", medicos[i].crm);
+	// 	    printf("\n\tNome: %s", medicos[i].nome);
+	// 	    printf("\n\tData de nascimento: %d/%d/%d", medicos[i].dia_nasc, medicos[i].mes_nasc, medicos[i].ano_nasc);
+	// 	    printf("\n\tSexo: %c", medicos[i].sexo);
+	// 	    printf("\n\tEspecialidade: %s", medicos[i].especialidade);
+	// 	    printf("\n\tUniversidade: %s", medicos[i].universidade);
+	// 		for(j = 0; j < medicos[i].n_emails; j++){
+	// 			printf("\n\t%s", medicos[i].email[j]);
+	// 		}
+	// 		for(j = 0; j < medicos[i].n_telefones; j++){
+	// 			printf("\n\t%s", medicos[i].telefone[j]);
+	// 		}
+	// 	    encontrou++;
+	// 	}
+	// }
+	// if (encontrou == 0)
+	// 	printf("Nenhum médico com essa especialidade foi encontrado!");
 }
 
 void menor_idade(struct paciente pacientes[]){
