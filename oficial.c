@@ -231,6 +231,7 @@ void Incluir_medico(struct medico *medicos, int *contador_medicos){
 	medico_inserir = (struct medico *)malloc(sizeof(struct medico)); // aloca mais uma posição no vetor
 	int i = 0, num_emails = 0, num_telefones = 0;
 	int achou = 0;
+	struct medico v[100];
 	if ((fp_medicos = fopen("medicos.dat", "ab+")) == NULL){
 			printf("Nao foi possivel ler o arquivo");
 			exit(0);
@@ -238,20 +239,20 @@ void Incluir_medico(struct medico *medicos, int *contador_medicos){
 			fseek(fp_medicos, 0, SEEK_END);
 			quantidade_medicos = ftell(fp_medicos) / sizeof(struct medico);
 			printf("%d", quantidade_medicos);
+			rewind(fp_medicos);
 			lista_medicos = (struct medico *)malloc(quantidade_medicos * sizeof(struct medico));
 			if(!lista_medicos){
 				printf("\n[ERROR]: Não foi possível alocar a memoria");
 				exit(0);
 			}
 			if (fread(lista_medicos, sizeof(struct medico), quantidade_medicos, fp_medicos) != quantidade_medicos)
-				printf("Nao foi possivel ler todos os elementos do arquivo");
-
+			 	printf("Nao foi possivel ler todos os elementos do arquivo");
 			system("cls");
 			fflush(stdin);
 			printf("Insira o CRM do medico: ");
 			scanf("%s", &(*medico_inserir).crm);
-			for(i = 0; i < contador; i++){
-				if(strcmp((*medico_inserir).crm, medicos[i].crm) == 0){
+			for(i = 0; i < quantidade_medicos && achou != 1; i++){
+				if(strcmp((*medico_inserir).crm, lista_medicos[i].crm) == 0){
 					printf("Este crm já existe\n");
 					achou = 1;
 				}
@@ -283,14 +284,14 @@ void Incluir_medico(struct medico *medicos, int *contador_medicos){
 					scanf("%s", &(*medico_inserir).telefone[i]);
 				}
 				(*contador_medicos)++;
-			}
-			if (fwrite(medico_inserir, sizeof(struct medico), 1, fp_medicos) != 1)
-				printf("Nao foi possivel escrever todos os elementos do arquivo");
+				if (fwrite(medico_inserir, sizeof(struct medico), 1, fp_medicos) != 1)
+					printf("Nao foi possivel escrever todos os elementos do arquivo");
+				}
 			}
 			fclose(fp_medicos);
 			free(medico_inserir);
 			free(lista_medicos);
-
+			sleep(2);
 }
 //-----------	FUNCOES PACIENTES	  ----------------------------------------------------------------------
 
@@ -950,33 +951,33 @@ int main()
 	struct consulta *consultas;
 	struct medico *medicos;
 	struct paciente *pacientes;
-	FILE *fp_medicos;
-	int quantidade_medicos;
-	if ((fp_medicos = fopen("medicos.dat", "rb+")) == NULL){
-			printf("Nao foi possivel ler o arquivo");
-			exit(0);
-		}else{
-			fseek(fp_medicos, 0, SEEK_END);
-			quantidade_medicos = ftell(fp_medicos) / sizeof(struct medico);
-			printf("%d", quantidade_medicos);
-			medicos = (struct medico *)malloc(quantidade_medicos * sizeof(struct medico));
-			if(!medicos){
-				printf("\n[ERROR]: Não foi possível alocar a memoria");
-				exit(0);
-			}
-			if (fread(medicos, sizeof(struct medico), quantidade_medicos, fp_medicos) != quantidade_medicos)
-			printf("Nao foi possivel escrever todos os elementos do arquivo");
-		}
-	pacientes = (struct paciente *)malloc(contador_pacientes * sizeof(struct paciente));
-	if(!pacientes){
-		printf("\n[ERROR]:Não foi possível alocar a memoria");
-		exit;
-	}
-	consultas = (struct consulta *)malloc(contador_consultas * sizeof(struct consulta));
-	if(!consultas){
-		printf("\n[ERROR]:Não foi possível alocar a memoria");
-		exit;
-	}
+	// FILE *fp_medicos;
+	// int quantidade_medicos;
+	// if ((fp_medicos = fopen("medicos.dat", "rb+")) == NULL){
+	// 		printf("Nao foi possivel ler o arquivo");
+	// 		exit(0);
+	// 	}else{
+	// 		fseek(fp_medicos, 0, SEEK_END);
+	// 		quantidade_medicos = ftell(fp_medicos) / sizeof(struct medico);
+	// 		printf("%d", quantidade_medicos);
+	// 		medicos = (struct medico *)malloc(quantidade_medicos * sizeof(struct medico));
+	// 		if(!medicos){
+	// 			printf("\n[ERROR]: Não foi possível alocar a memoria");
+	// 			exit(0);
+	// 		}
+	// 		if (fread(medicos, sizeof(struct medico), quantidade_medicos, fp_medicos) != quantidade_medicos)
+	// 		printf("Nao foi possivel escrever todos os elementos do arquivo");
+	// 	}
+	// pacientes = (struct paciente *)malloc(contador_pacientes * sizeof(struct paciente));
+	// if(!pacientes){
+	// 	printf("\n[ERROR]:Não foi possível alocar a memoria");
+	// 	exit;
+	// }
+	// consultas = (struct consulta *)malloc(contador_consultas * sizeof(struct consulta));
+	// if(!consultas){
+	// 	printf("\n[ERROR]:Não foi possível alocar a memoria");
+	// 	exit;
+	// }
 
 	while (sair == 0){
 		int sair_medico = 0, sair_paciente = 0, sair_consulta = 0, sair_relatorio = 0;
