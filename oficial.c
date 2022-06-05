@@ -223,6 +223,7 @@ void alterar_um_medico(struct medico medicos[], int *contador_medicos){
 }
 
 void Incluir_medico(struct medico medicos[], int *contador_medicos){
+	FILE *fp;
 	int contador = *contador_medicos;
 	medicos = (struct medico *)realloc(medicos, (contador + 1)*sizeof(struct medico)); // aloca mais uma posição no vetor
 	char crm1[20], nome1[18], sexo1, especialidade1[100], universidade1[50], emails1[2][50], telefones1[2][20];
@@ -280,6 +281,15 @@ void Incluir_medico(struct medico medicos[], int *contador_medicos){
 			strcpy(medicos[contador].telefone[i], telefones1[i]);
 		}
 		(*contador_medicos)++;
+
+		// if ((fp = fopen("medicos.dat", "ab+")) == NULL){
+		// 	printf("Nao foi possivel criar o arquivo");
+		// 	exit(0);
+		// }else{
+		// 	if (fwrite(medicos, sizeof(medicos), *contador_medicos, fp) != *contador_medicos)
+		// 	printf("Nao foi possivel escrever todos os elementos do arquivo");
+		// }
+		
 	}
    
 }
