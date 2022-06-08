@@ -53,29 +53,48 @@ struct consulta{
 
 void listar_todos_medicos(struct medico medicos[], int *contador_medicos){
 	int voltar = 0, i, j, x;
-	int contador = *contador_medicos;
+	FILE *fp_medicos;
+	int quantidade_medicos;
+	struct medico *lista_medicos;
+	if ((fp_medicos = fopen("medicos.dat", "rb+")) == NULL){
+			printf("Nao foi possivel ler o arquivo");
+			exit(0);
+		}else{
+			fseek(fp_medicos, 0, SEEK_END);
+			quantidade_medicos = ftell(fp_medicos) / sizeof(struct medico);
+			rewind(fp_medicos);
+			lista_medicos = (struct medico *)malloc(quantidade_medicos * sizeof(struct medico));
+			if(!lista_medicos){
+				printf("\n[ERROR]: Não foi possível alocar a memoria");
+				exit(0);
+			}
+			if (fread(lista_medicos, sizeof(struct medico), quantidade_medicos, fp_medicos) != quantidade_medicos)
+			 	printf("Nao foi possivel ler todos os elementos do arquivo");
+
 	system("cls");
-	for(i = 0; i < contador; i++){
-		int num_emails = medicos[i].n_emails;
-		int num_telefones = medicos[i].n_telefones;
+	for(i = 0; i < quantidade_medicos; i++){
+		int num_emails = lista_medicos[i].n_emails;
+		int num_telefones = lista_medicos[i].n_telefones;
 		printf("\nMedico %d\n", i + 1);
-		printf("CRM: %s\n", medicos[i].crm);
-		printf("NOME: %s\n", medicos[i].nome);
-		printf("NASCIMENTO: %d/%d/%d\n", medicos[i].dia_nasc, medicos[i].mes_nasc, medicos[i].ano_nasc);
-		printf("SEXO: %c\n", medicos[i].sexo);
-		printf("ESPECIALIDADE: %s\n", medicos[i].especialidade);
-		printf("UNIVERSIDADE: %s\n", medicos[i].universidade);
+		printf("CRM: %s\n", lista_medicos[i].crm);
+		printf("NOME: %s\n", lista_medicos[i].nome);
+		printf("NASCIMENTO: %d/%d/%d\n", lista_medicos[i].dia_nasc, medicos[i].mes_nasc, medicos[i].ano_nasc);
+		printf("SEXO: %c\n", lista_medicos[i].sexo);
+		printf("ESPECIALIDADE: %s\n", lista_medicos[i].especialidade);
+		printf("UNIVERSIDADE: %s\n", lista_medicos[i].universidade);
 		for(j = 0; j < num_emails; j++){
-			printf("EMAIL %d: %s\n", j + 1, medicos[i].email[j]);
+			printf("EMAIL %d: %s\n", j + 1, lista_medicos[i].email[j]);
 		}
 		for(x = 0; x < num_telefones; x++){
-			printf("TELEFONE %d: %s\n", x + 1, medicos[i].telefone[x]);
+			printf("TELEFONE %d: %s\n", x + 1, lista_medicos[i].telefone[x]);
 		}
 	}
 	printf("\ninsira qualquer valor para voltar ao menu de medicos:");
 	scanf("%d", &voltar);
 
+	}
 }
+
 
 void listar_um_medico(struct medico medicos[], int *contador_medicos){
 	int voltar = 0, i, j, x;
