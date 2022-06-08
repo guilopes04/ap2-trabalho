@@ -773,121 +773,210 @@ void exclui_consulta(struct consulta consultas[], int *contador_consultas){
 
 //-----------	FUNCOES RELATORIOS	  ----------------------------------------------------------------------
 
-void filtra_especialidade(struct medico medicos[]){
+void filtra_especialidade(struct medico *medicos){
+
 	int i, j, encontrou = 0;
 	char especialidade1[100];
-	
-	printf("Insira a especialidade: ");
-	scanf("%s", &especialidade1);
 
-	FILE *arqRelatorio;
-	arqRelatorio = fopen("relatorios.txt", "a");
-	if (arqRelatorio == NULL){
-		printf("Não foi possivel abrir o arquivo");
+	struct medico *medico_filtrar;
+	FILE *fp_medicos;
+	int quantidade_medicos;
+	struct medico *lista_medicos;
+	medico_filtrar = (struct medico *)malloc(sizeof(struct medico)); // aloca mais uma posição no vetor
+
+	if ((fp_medicos = fopen("medicos.dat", "rb")) == NULL){
+		printf("Nao foi possivel ler o arquivo");
 		exit(0);
 	}
 	else{
-		for (i = 0; i < tamanho; i++){
-			if (strcmp(medicos[i].especialidade, especialidade1) == 0){	
-				fputs("\nMédico:", arqRelatorio);							//busca no vetor medicos com a
-				fputs("\n\tCRM:", arqRelatorio);
-				fputs(medicos[i].crm, arqRelatorio);
-				fputs("\n\tNome:", arqRelatorio);
-				fputs(medicos[i].nome, arqRelatorio);
-				fputs("\n\tData de nascimento:", arqRelatorio);
-				fputs(medicos[i].dia_nasc, arqRelatorio);
-				fputs(medicos[i].mes_nasc, arqRelatorio);
-				fputs(medicos[i].ano_nasc, arqRelatorio);
-				fputs("\n\tSexo:", arqRelatorio);
-				fputs(medicos[i].sexo, arqRelatorio);
-				fputs("\n\tEspecialidade::", arqRelatorio);
-				fputs(medicos[i].especialidade, arqRelatorio);
-				fputs("\n\tUniversidade:", arqRelatorio);
-				fputs(medicos[i].universidade, arqRelatorio);
-				fputs("\n\te-mail:", arqRelatorio);
-				for(j = 0; j < medicos[i].n_emails; j++){
-					fputs("\n\t\t", arqRelatorio);
-					fputs(medicos[i].email[j], arqRelatorio);
-				}
-				fputs("\n\ttelefones:", arqRelatorio);
-				for(j = 0; j < medicos[i].n_telefones; j++){
-					fputs("\n\t\t", arqRelatorio);
-					fputs(medicos[i].telefone[j], arqRelatorio);
-				}
-				encontrou++;
-			}
+		fseek(fp_medicos, 0, SEEK_END);
+		quantidade_medicos = ftell(fp_medicos) / sizeof(struct medico);
+		printf("quantidade medicos: %d\n", quantidade_medicos);
+		rewind(fp_medicos);
+		lista_medicos = (struct medico *)malloc(quantidade_medicos * sizeof(struct medico));
+		if(!lista_medicos){
+			printf("\n[ERROR]: Não foi possível alocar a memoria");
+			exit(0);
 		}
-		if (encontrou == 0){
-			printf("Nenhum médico com essa especialidade foi encontrado!");
-			fclose(arqRelatorio) == 0;
+		if (fread(lista_medicos, sizeof(struct medico), quantidade_medicos, fp_medicos) != quantidade_medicos)
+			printf("Nao foi possivel ler todos os elementos do arquivo");
+		//system("cls");
+		fflush(stdin);
+
+		printf("Insira a especialidade: ");
+		scanf("%s", &especialidade1);
+
+		FILE *arqRelatorio;
+		arqRelatorio = fopen("relatorios.txt", "a");
+		if (arqRelatorio == NULL){
+			printf("Não foi possivel abrir o arquivo");
+			exit(0);
 		}
 		else{
-			if (fclose(arqRelatorio) == 0)
-				printf("Relatório gravado com sucesso!");
-			else
-				printf("Não foi possível gravar o relatório!");
-		}	
-	}
-	
-	// for (i = 0; i < tamanho; i++){
-	// 	if (strcmp(medicos[i].especialidade, especialidade1) == 0){		//busca no vetor medicos com a
-	// 		printf("\nMédico: ");										//especialidade e imprime
-	// 		printf("\n\tCRM: %s", medicos[i].crm);
-	// 	    printf("\n\tNome: %s", medicos[i].nome);
-	// 	    printf("\n\tData de nascimento: %d/%d/%d", medicos[i].dia_nasc, medicos[i].mes_nasc, medicos[i].ano_nasc);
-	// 	    printf("\n\tSexo: %c", medicos[i].sexo);
-	// 	    printf("\n\tEspecialidade: %s", medicos[i].especialidade);
-	// 	    printf("\n\tUniversidade: %s", medicos[i].universidade);
-	// 		for(j = 0; j < medicos[i].n_emails; j++){
-	// 			printf("\n\t%s", medicos[i].email[j]);
-	// 		}
-	// 		for(j = 0; j < medicos[i].n_telefones; j++){
-	// 			printf("\n\t%s", medicos[i].telefone[j]);
-	// 		}
-	// 	    encontrou++;
-	// 	}
-	// }
-	// if (encontrou == 0)
-	// 	printf("Nenhum médico com essa especialidade foi encontrado!");
-}
-
-void menor_idade(struct paciente pacientes[]){
-	int i, j, idade, encontrou = 0, dia_atual = 17, mes_atual = 4, ano_atual = 2022;
-	
-	printf("Insira a idade: ");
-	scanf("%d", &idade);
-	
-	for (i = 0; i < tamanho; i++){						//filtra a idade
-		if (pacientes[i].ano_nasc >= ano_atual - idade){
-			if (pacientes[i].mes_nasc <= mes_atual || pacientes[i].ano_nasc > ano_atual - idade){
-				if (pacientes[i].mes_nasc == mes_atual && pacientes[i].dia_nasc <= dia_atual || pacientes[i].mes_nasc < mes_atual || pacientes[i].mes_nasc > mes_atual || pacientes[i].ano_nasc > ano_atual - idade){
-					printf("\nPaciente:");
-					printf("\n\tCPF: %s", pacientes[i].cpf);
-					printf("\n\tNome: %s", pacientes[i].nome);
-					printf("\n\tData de nascimento: %d/%d/%d", pacientes[i].dia_nasc, pacientes[i].mes_nasc, pacientes[i].ano_nasc);
-					printf("\n\tSexo: %c", pacientes[i].sexo);
-					printf("\n\tPlano: %s", pacientes[i].plano);
-					for(j = 0; j < pacientes[i].n_emails; j++){
-						printf("\n\t%s", pacientes[i].email[j]);
+			for(i = 0; i < quantidade_medicos; i++){
+				if(strcmp(lista_medicos[i].especialidade, especialidade1) == 0){
+					if (encontrou == 0){
+						fputs("Todos os médicos com a especialidade: ", arqRelatorio);
+						fputs(especialidade1, arqRelatorio);
 					}
-					for(j = 0; j < pacientes[i].n_telefones; j++){
-						printf("\n\t%s", pacientes[i].telefone[j]);
+					fputs("\nMédico:", arqRelatorio);							//busca no vetor medicos com a
+					fputs("\n\tCRM:", arqRelatorio);
+					fputs(lista_medicos[i].crm, arqRelatorio);
+					fputs("\n\tNome:", arqRelatorio);
+					fputs(lista_medicos[i].nome, arqRelatorio);
+					// fputs("\n\tData de nascimento:", arqRelatorio);
+					// putw(lista_medicos[i].dia_nasc, arqRelatorio);
+					// fputs("/", arqRelatorio);
+					// fputs(lista_medicos[i].mes_nasc, arqRelatorio);		???put no arquivo int
+					// fputs("/", arqRelatorio);
+					// fputs(lista_medicos[i].ano_nasc, arqRelatorio);
+					fputs("\n\tSexo:", arqRelatorio);
+					fputc(lista_medicos[i].sexo, arqRelatorio);
+					fputs("\n\tEspecialidade:", arqRelatorio);
+					fputs(lista_medicos[i].especialidade, arqRelatorio);
+					fputs("\n\tUniversidade:", arqRelatorio);
+					fputs(lista_medicos[i].universidade, arqRelatorio);
+					fputs("\n\te-mail:", arqRelatorio);
+					for(j = 0; j < lista_medicos[i].n_emails; j++){
+						fputs("\n\t\t", arqRelatorio);
+						fputs(lista_medicos[i].email[j], arqRelatorio);
 					}
-					
+					fputs("\n\ttelefones:", arqRelatorio);
+					for(j = 0; j < lista_medicos[i].n_telefones; j++){
+						fputs("\n\t\t", arqRelatorio);
+						fputs(lista_medicos[i].telefone[j], arqRelatorio);
+					}
 					encontrou++;
 				}
 			}
+			if (encontrou == 0){
+				printf("Nenhum médico com essa especialidade foi encontrado!");
+				fclose(arqRelatorio) == 0;
+			}
+			else{
+				if (fclose(arqRelatorio) == 0)
+					printf("Relatório gravado com sucesso!");
+				else
+					printf("Não foi possível gravar o relatório!");
+			}
 		}
 	}
-	
-	if (encontrou == 0)
-		printf("Nenhum paciente encontrado!");
 }
 
-void filtra_consultas_dias(struct medico medicos[], struct paciente pacientes[], struct consulta consultas[], int contador_consultas, int contador_medicos, int contador_pacientes){
+void menor_idade(struct paciente *pacientes){
+	int i, j, idade, encontrou = 0, dia_atual = 17, mes_atual = 4, ano_atual = 2022;
+
+	struct paciente *paciente_filtrar;
+	FILE *fp_pacientes;
+	int quantidade_pacientes;
+	struct paciente *lista_pacientes;
+	paciente_filtrar = (struct paciente *)malloc(sizeof(struct paciente)); // aloca mais uma posição no vetor
+
+	if ((fp_pacientes = fopen("pacientes.dat", "rb")) == NULL){
+		printf("Nao foi possivel ler o arquivo");
+		exit(0);
+	}
+	else{
+		fseek(fp_pacientes, 0, SEEK_END);
+		quantidade_pacientes = ftell(fp_pacientes) / sizeof(struct paciente);
+		printf("quantidade pacientes: %d\n", quantidade_pacientes);
+		rewind(fp_pacientes);
+		lista_pacientes = (struct paciente *)malloc(quantidade_pacientes * sizeof(struct paciente));
+		if(!lista_pacientes){
+			printf("\n[ERROR]: Não foi possível alocar a memoria");
+			exit(0);
+		}
+		if (fread(lista_pacientes, sizeof(struct paciente), quantidade_pacientes, fp_pacientes) != quantidade_pacientes)
+			printf("Nao foi possivel ler todos os elementos do arquivo");
+		//system("cls");
+		fflush(stdin);
+
+		printf("Insira a idade: ");
+		scanf("%d", &idade);
+
+		FILE *arqRelatorio;
+		arqRelatorio = fopen("relatorios.txt", "a");
+		if (arqRelatorio == NULL){
+			printf("Não foi possivel abrir o arquivo");
+			exit(0);
+		}
+		else{
+			for (i = 0; i < quantidade_pacientes; i++){
+				if (lista_pacientes[i].ano_nasc >= ano_atual - idade){
+					if (encontrou == 0){
+						fputs("Todos os pacientes mais novos que: ", arqRelatorio);
+						fputs(idade, arqRelatorio);
+					}
+					fputs("\nPaciente:", arqRelatorio);
+					fputs("\n\tCPF:", arqRelatorio);
+					fputs(lista_pacientes[i].cpf, arqRelatorio);
+					fputs("\n\tNome:", arqRelatorio);
+					fputs(lista_pacientes[i].nome, arqRelatorio);
+					//DATA DE NASCIMENTO
+
+					fputs("\n\tSexo:", arqRelatorio);
+					fputc(lista_pacientes[i].sexo, arqRelatorio);
+					fputs("\n\tPlano:", arqRelatorio);
+					fputs(lista_pacientes[i].plano, arqRelatorio);
+					fputs("\n\te-mail:", arqRelatorio);
+					for(j = 0; j < lista_pacientes[i].n_emails; j++){
+						fputs("\n\t\t", arqRelatorio);
+						fputs(lista_pacientes[i].email[j], arqRelatorio);
+					}
+					fputs("\n\ttelefones:", arqRelatorio);
+					for(j = 0; j < lista_pacientes[i].n_telefones; j++){
+						fputs("\n\t\t", arqRelatorio);
+						fputs(lista_pacientes[i].telefone[j], arqRelatorio);
+					}
+					encontrou++;
+				}
+			}
+			if (encontrou == 0){
+				printf("Nenhum médico com essa especialidade foi encontrado!");
+				fclose(arqRelatorio) == 0;
+			}
+			else{
+				if (fclose(arqRelatorio) == 0)
+					printf("Relatório gravado com sucesso!");
+				else
+					printf("Não foi possível gravar o relatório!");
+			}
+		}
+	}
+}
+	
+	// for (i = 0; i < tamanho; i++){						//filtra a idade
+	// 	if (pacientes[i].ano_nasc >= ano_atual - idade){
+	// 		if (pacientes[i].mes_nasc <= mes_atual || pacientes[i].ano_nasc > ano_atual - idade){
+	// 			if (pacientes[i].mes_nasc == mes_atual && pacientes[i].dia_nasc <= dia_atual || pacientes[i].mes_nasc < mes_atual || pacientes[i].mes_nasc > mes_atual || pacientes[i].ano_nasc > ano_atual - idade){
+	// 				printf("\nPaciente:");
+	// 				printf("\n\tCPF: %s", pacientes[i].cpf);
+	// 				printf("\n\tNome: %s", pacientes[i].nome);
+	// 				printf("\n\tData de nascimento: %d/%d/%d", pacientes[i].dia_nasc, pacientes[i].mes_nasc, pacientes[i].ano_nasc);
+	// 				printf("\n\tSexo: %c", pacientes[i].sexo);
+	// 				printf("\n\tPlano: %s", pacientes[i].plano);
+	// 				for(j = 0; j < pacientes[i].n_emails; j++){
+	// 					printf("\n\t%s", pacientes[i].email[j]);
+	// 				}
+	// 				for(j = 0; j < pacientes[i].n_telefones; j++){
+	// 					printf("\n\t%s", pacientes[i].telefone[j]);
+	// 				}
+					
+	// 				encontrou++;
+	// 			}
+	// 		}
+	// 	}
+	// }
+	
+	// if (encontrou == 0)
+	// 	printf("Nenhum paciente encontrado!");
+
+void filtra_consultas_dias(struct medico *medicos, struct paciente *pacientes, struct consulta *consultas, int contador_consultas, int contador_medicos, int contador_pacientes){
 	int achou = 0, dias_filtro, dias_consulta, i, j, cont_consultas = contador_consultas, cont_medicos = contador_medicos, cont_pacientes = contador_pacientes;
 	char crm1[20];
 	
+	
+
 	printf("Insira o número de dias: ");
 	scanf("%d", &dias_filtro);
 
@@ -940,9 +1029,6 @@ void filtra_consultas_dias(struct medico medicos[], struct paciente pacientes[],
 int main()
 {
 	setlocale(LC_ALL, "Portuguese");
-	
-	
-	
 	
 	int sair = 0, contador_consultas = 0; 
 	int contador_medicos = 0;
@@ -1130,13 +1216,13 @@ int main()
 			    switch (res)
 			    {
 			    case 1:
-			        filtra_especialidade(medicos);
+			        filtra_especialidade(&medicos);
 			        break;
 			    case 2:
-			        menor_idade(pacientes);
+			        menor_idade(&pacientes);
 			        break;
 			    case 3:
-			        filtra_consultas_dias(medicos, pacientes, consultas, contador_consultas, contador_medicos, contador_pacientes);
+			        filtra_consultas_dias(&medicos, &pacientes, &consultas, contador_consultas, contador_medicos, contador_pacientes);
 			        break;
 			    case 4:
 			        sair_relatorio = 1;
